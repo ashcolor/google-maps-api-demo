@@ -1,80 +1,60 @@
 <template>
-  <div>
-    <div class="map" ref="googleMap" />
-  </div>
+  <GmapMap ref="googleMap" :center="mapConfig.center" :zoom="mapConfig.zoom" map-type-id="terrain" style="width: 100vw; height: 100vh"> </GmapMap>
 </template>
 
-<script>
-import { DEFAULT_PIN_STYLE } from "../config/const";
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { mapState } from "vuex";
+import { gmapApi } from "vue2-google-maps";
+import { DEFAULT_PIN_STYLE } from "../config/const";
 
-export default {
-  name: "Map",
-  data: () => ({
-    map: null,
-    // drawingManager: null,
-  }),
+@Component({
   computed: {
-    ...mapState(["google"]),
-    google: function() {
-      return this.$store.state.google;
-    },
-    mapConfig: function() {
-      return this.$store.state.mapConfig;
-    },
-    pois: function() {
-      return this.$store.state.pois;
-    },
-    drawingManager: function() {
-      return this.$store.state.drawingManager;
-    },
+    ...mapState(["mapConfig", "pois", "drawingManager"]),
   },
+})
+export default class Map extends Vue {
+  map = null;
+
+  get google() {
+    return gmapApi();
+  }
+
   mounted() {
-    this.$store.watch(
-      (state, getters) => getters.getGoogle,
-      (newValue) => {
-        if (newValue !== null) {
-          this.initializeMap();
-        }
-      }
+    this.$refs.googleMap.$mapPromise.then((map) => {
+      this.map = map;
+      this.initializeDrawingManager();
+      this.initPois();
+    });
+  }
+  // created() {}
+
+  initializeDrawingManager() {
+    this.$store.commit(
+      "setDrawingManager",
+      new this.google.maps.drawing.DrawingManager({
+        drawingControl: false,
+      })
     );
-  },
-
-  methods: {
-    initializeMap() {
-      const mapContainer = this.$refs.googleMap;
-      console.log(this.mapConfig);
-      this.map = new this.google.maps.Map(mapContainer, this.mapConfig);
-
-      this.$store.commit(
-        "setDrawingManager",
-        new this.google.maps.drawing.DrawingManager({
-          drawingControl: false,
-        })
-      );
-      this.drawingManager.setMap(this.map);
-
-      this.pois.forEach((poi) => {
-        var marker = new this.google.maps.Marker({
-          map: this.map,
-          position: new this.google.maps.LatLng(poi.lat, poi.lng),
-          label: {
-            text: String(poi.id),
-            color: "#FFFFFF",
-            fontSize: "20px",
-          },
-          ...DEFAULT_PIN_STYLE,
-        });
-        marker.setMap(this.map);
+    this.drawingManager.setMap(this.map);
+  }
+  initPois() {
+    //ピン描画
+    this.pois.forEach((poi) => {
+      const marker = new this.google.maps.Marker({
+        map: this.map,
+        position: new this.google.maps.LatLng(poi.position.lat, poi.position.lng),
+        label: {
+          text: String(poi.id),
+          color: "#FFFFFF",
+          fontSize: "20px",
+        },
+        ...DEFAULT_PIN_STYLE,
       });
-    },
-  },
-};
+      marker.setMap(this.map);
+    });
+  }
+}
 </script>
 
-<style lang="scss" scoped>
-.map {
-  width: 100vw;
-  height: 100vh;
-}
-</style>
+<style lang="scss" scoped></style>

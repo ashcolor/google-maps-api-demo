@@ -20,23 +20,16 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "Map",
-  props: {},
-  data: () => ({
-    google: null,
-    map: null,
-  }),
-  computed: {
-    pois: function() {
-      return this.$store.state.pois;
-    },
-  },
-  mounted() {},
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+import { mapState } from "vuex";
 
-  methods: {},
-};
+@Component({
+  computed: {
+    ...mapState(["pois"]),
+  },
+})
+export default class PoiList extends Vue {}
 </script>
 
 <style lang="scss" scoped></style>

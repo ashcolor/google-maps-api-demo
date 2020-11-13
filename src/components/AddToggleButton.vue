@@ -8,36 +8,37 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      myToggle: false,
-      buttons: [
-        { caption: "hand-index", state: true },
-        { caption: "geo-alt", state: false },
-        { caption: "pentagon", state: false },
-        { caption: "slash", state: false },
-      ],
-    };
-  },
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+import { mapState } from "vuex";
+import { gmapApi } from "vue2-google-maps";
+
+@Component({
   computed: {
-    modes: function() {
-      return this.$store.state.google
-        ? [
-            this.$store.state.google.maps.drawing.OverlayType.DEFAULT,
-            this.$store.state.google.maps.drawing.OverlayType.MARKER,
-            this.$store.state.google.maps.drawing.OverlayType.POLYGON,
-            this.$store.state.google.maps.drawing.OverlayType.POLYLINE,
-          ]
-        : [];
-    },
+    ...mapState(["drawingManager"]),
   },
-  methods: {
-    change(id) {
-      this.buttons.forEach((btn, i) => (btn.state = i === id));
-      this.$store.commit("changeDrawingMode", this.modes[id]);
-    },
-  },
-};
+})
+export default class AddToggleButton extends Vue {
+  myToggle = false;
+  buttons = [
+    { caption: "hand-index", state: true },
+    { caption: "geo-alt", state: false },
+    { caption: "pentagon", state: false },
+    { caption: "slash", state: false },
+  ];
+
+  get google() {
+    return gmapApi();
+  }
+  get modes() {
+    return this.google
+      ? [this.google.maps.drawing.OverlayType.DEFAULT, this.google.maps.drawing.OverlayType.MARKER, this.google.maps.drawing.OverlayType.POLYGON, this.google.maps.drawing.OverlayType.POLYLINE]
+      : [];
+  }
+
+  change(id) {
+    this.buttons.forEach((btn, i) => (btn.state = i === id));
+    this.$store.commit("changeDrawingMode", this.modes[id]);
+  }
+}
 </script>

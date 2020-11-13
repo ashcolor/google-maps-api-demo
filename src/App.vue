@@ -46,82 +46,69 @@
     </b-sidebar>
 
     <b-sidebar id="sidebar-right" title="Sidebar" z-index="1" visible no-header right shadow>
-      <PoiList />
+      <!-- <PoiList /> -->
     </b-sidebar>
 
     <Map />
   </div>
 </template>
 
-<script>
-import GoogleMapsApiLoader from "google-maps-api-loader";
-import { API_KEY } from "./config/const";
-import AddToggleButton from "./components/AddToggleButton";
-import Map from "./components/Map";
-import PoiList from "./components/PoiList";
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import AddToggleButton from "./components/AddToggleButton.vue";
+import Map from "./components/Map.vue";
+import PoiList from "./components/PoiList.vue";
 
-export default {
-  name: "App",
-
+@Component({
   components: {
     AddToggleButton,
     Map,
     PoiList,
   },
-
-  data: () => ({
-    apiList: {
-      map: {
-        name: "マップ",
-        list: [
-          {
-            key: "pin",
-            name: "ピンの表示",
-          },
-          {
-            key: "polygon",
-            name: "ポリゴンの表示",
-          },
-          {
-            key: "style",
-            name: "地図切り替え",
-          },
-        ],
-      },
-      route: {
-        name: "ルート",
-        list: [
-          {
-            key: "search",
-            name: "ルート検索",
-          },
-        ],
-      },
-      place: {
-        name: "プレイス",
-        list: [
-          {
-            key: "search",
-            name: "場所の検索",
-          },
-          {
-            key: "geocoding",
-            name: "ジオコーディング",
-          },
-        ],
-      },
+})
+export default class App extends Vue {
+  apiList = {
+    map: {
+      name: "マップ",
+      list: [
+        {
+          key: "pin",
+          name: "ピンの表示",
+        },
+        {
+          key: "polygon",
+          name: "ポリゴンの表示",
+        },
+        {
+          key: "style",
+          name: "地図切り替え",
+        },
+      ],
     },
-  }),
-  async mounted() {
-    this.$store.dispatch(
-      "loadGoogleMapsApi",
-      await GoogleMapsApiLoader({
-        apiKey: API_KEY,
-        libraries: ["drawing"],
-      })
-    );
-  },
-};
+    route: {
+      name: "ルート",
+      list: [
+        {
+          key: "search",
+          name: "ルート検索",
+        },
+      ],
+    },
+    place: {
+      name: "プレイス",
+      list: [
+        {
+          key: "search",
+          name: "場所の検索",
+        },
+        {
+          key: "geocoding",
+          name: "ジオコーディング",
+        },
+      ],
+    },
+  };
+}
 </script>
 
 <style scoped>

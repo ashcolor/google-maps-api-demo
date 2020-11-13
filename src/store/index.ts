@@ -1,12 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import pois from "../data/pois.json";
+import { gmapApi } from "vue2-google-maps";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    google: null,
+    google: gmapApi,
     drawingManager: null,
     mapConfig: {
       center: {
@@ -19,15 +20,12 @@ export default new Vuex.Store({
       return pois;
     })(),
   },
-  getters: {
-    getGoogle: (state) => {
-      return state.google;
-    },
-  },
+  // getters: {
+  //   google: () => {
+  //     return gmapApi;
+  //   },
+  // },
   mutations: {
-    setGoogle(state, google) {
-      state.google = google;
-    },
     setDrawingManager(state, drawingManager) {
       state.drawingManager = drawingManager;
     },
@@ -35,10 +33,10 @@ export default new Vuex.Store({
       state.drawingManager.setDrawingMode(mode);
     },
   },
-  actions: {
-    loadGoogleMapsApi({ commit }, google) {
-      commit("setGoogle", google);
-    },
-  },
+  // actions: {
+  //   loadGoogleMapsApi({ commit }, google) {
+  //     commit("setGoogle", google);
+  //   },
+  // },
   modules: {},
 });
