@@ -27,7 +27,6 @@ export default class Map extends Vue {
       this.initPois();
     });
   }
-  // created() {}
 
   initializeDrawingManager() {
     this.$store.commit(
@@ -49,7 +48,10 @@ export default class Map extends Vue {
           color: "#FFFFFF",
           fontSize: "20px",
         },
-        ...DEFAULT_PIN_STYLE,
+        icon: {
+          path: this.google.maps.SymbolPath.CIRCLE,
+          ...DEFAULT_PIN_STYLE.icon,
+        },
       });
       marker.setMap(this.map);
     });

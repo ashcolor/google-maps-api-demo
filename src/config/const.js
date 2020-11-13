@@ -4,7 +4,6 @@ const DEFAULT_PIN_STYLE = {
   icon: {
     fillColor: "#FF0000",
     fillOpacity: 0.8,
-    // path: new google.maps.SymbolPath.CIRCLE(),
     scale: 16,
     strokeColor: "#FF0000",
     strokeWeight: 1.0,

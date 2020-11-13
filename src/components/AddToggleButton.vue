@@ -36,7 +36,7 @@ export default class AddToggleButton extends Vue {
       : [];
   }
 
-  change(id) {
+  change(id: number) {
     this.buttons.forEach((btn, i) => (btn.state = i === id));
     this.$store.commit("changeDrawingMode", this.modes[id]);
   }

@@ -20,23 +20,14 @@ export default new Vuex.Store({
       return pois;
     })(),
   },
-  // getters: {
-  //   google: () => {
-  //     return gmapApi;
-  //   },
-  // },
   mutations: {
     setDrawingManager(state, drawingManager) {
       state.drawingManager = drawingManager;
     },
     changeDrawingMode(state, mode) {
-      state.drawingManager.setDrawingMode(mode);
+      state.drawingManager?.setDrawingMode(mode);
     },
   },
-  // actions: {
-  //   loadGoogleMapsApi({ commit }, google) {
-  //     commit("setGoogle", google);
-  //   },
-  // },
+  actions: {},
   modules: {},
 });
