@@ -5,8 +5,19 @@
         <b-navbar-brand href="#">Google Maps API Demo</b-navbar-brand>
 
         <b-navbar-nav>
-          <b-nav-item-dropdown :apiList="apiList" v-for="category in apiList" :key="category.name" :text="category.name">
-            <b-dropdown-item :api="category.list" v-for="api in category.list" :key="api.key" href="#">{{ api.name }}</b-dropdown-item>
+          <b-nav-item-dropdown
+            :apiList="apiList"
+            v-for="category in apiList"
+            :key="category.name"
+            :text="category.name"
+          >
+            <b-dropdown-item
+              :api="category.list"
+              v-for="api in category.list"
+              :key="api.key"
+              href="#"
+              >{{ api.name }}</b-dropdown-item
+            >
           </b-nav-item-dropdown>
         </b-navbar-nav>
 
@@ -54,10 +65,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import AddToggleButton from "./components/AddToggleButton.vue";
-import Map from "./components/Map.vue";
-import PoiList from "./components/PoiList.vue";
+import { Component, Vue } from 'vue-property-decorator';
+import AddToggleButton from './components/AddToggleButton.vue';
+import Map from './components/Map.vue';
+import PoiList from './components/PoiList.vue';
 
 @Component({
   components: {
@@ -69,41 +80,41 @@ import PoiList from "./components/PoiList.vue";
 export default class App extends Vue {
   apiList = {
     map: {
-      name: "マップ",
+      name: 'マップ',
       list: [
         {
-          key: "pin",
-          name: "ピンの表示",
+          key: 'pin',
+          name: 'ピンの表示',
         },
         {
-          key: "polygon",
-          name: "ポリゴンの表示",
+          key: 'polygon',
+          name: 'ポリゴンの表示',
         },
         {
-          key: "style",
-          name: "地図切り替え",
+          key: 'style',
+          name: '地図切り替え',
         },
       ],
     },
     route: {
-      name: "ルート",
+      name: 'ルート',
       list: [
         {
-          key: "search",
-          name: "ルート検索",
+          key: 'search',
+          name: 'ルート検索',
         },
       ],
     },
     place: {
-      name: "プレイス",
+      name: 'プレイス',
       list: [
         {
-          key: "search",
-          name: "場所の検索",
+          key: 'search',
+          name: '場所の検索',
         },
         {
-          key: "geocoding",
-          name: "ジオコーディング",
+          key: 'geocoding',
+          name: 'ジオコーディング',
         },
       ],
     },

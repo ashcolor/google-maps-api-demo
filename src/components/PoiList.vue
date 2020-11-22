@@ -21,12 +21,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { mapState } from "vuex";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { mapState } from 'vuex';
 
 @Component({
   computed: {
-    ...mapState(["pois"]),
+    ...mapState(['pois']),
   },
 })
 export default class PoiList extends Vue {}
