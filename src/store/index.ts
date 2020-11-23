@@ -1,14 +1,14 @@
-import Vue from "vue";
-import Vuex from "vuex";
-import pois from "../data/pois.json";
-import { gmapApi } from "vue2-google-maps";
+import Vue from 'vue';
+import Vuex from 'vuex';
+import pois from '../data/pois.json';
+import { gmapApi } from 'vue2-google-maps';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     google: gmapApi,
-    drawingManager: null,
+    map: null,
     mapConfig: {
       center: {
         lat: 35.68944,
@@ -16,15 +16,20 @@ export default new Vuex.Store({
       },
       zoom: 10,
     },
+    drawingManager: null,
     pois: (function() {
       return pois;
     })(),
   },
   mutations: {
+    setMap(state, map) {
+      state.map = map;
+    },
     setDrawingManager(state, drawingManager) {
       state.drawingManager = drawingManager;
     },
     changeDrawingMode(state, mode) {
+      // @ts-ignore
       state.drawingManager?.setDrawingMode(mode);
     },
   },

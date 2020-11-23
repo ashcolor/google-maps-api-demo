@@ -10,26 +10,25 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { mapState } from 'vuex';
 import { gmapApi } from 'vue2-google-maps';
 import { DEFAULT_PIN_STYLE } from '../config/const';
 
 @Component({
   computed: {
-    ...mapState(['mapConfig', 'pois', 'drawingManager']),
+    ...mapState(['map', 'mapConfig', 'pois', 'drawingManager']),
   },
 })
 export default class Map extends Vue {
-  map = null;
-
   get google() {
     return gmapApi();
   }
 
   mounted() {
+    // @ts-ignore
     this.$refs.googleMap.$mapPromise.then(map => {
-      this.map = map;
+      this.$store.commit('setMap', map);
       this.initializeDrawingManager();
       this.initPois();
     });
@@ -42,12 +41,15 @@ export default class Map extends Vue {
         drawingControl: false,
       })
     );
+    // @ts-ignore
     this.drawingManager.setMap(this.map);
   }
   initPois() {
     //ピン描画
+    // @ts-ignore
     this.pois.forEach(poi => {
       const marker = new this.google.maps.Marker({
+        // @ts-ignore
         map: this.map,
         position: new this.google.maps.LatLng(poi.position.lat, poi.position.lng),
         label: {
@@ -60,6 +62,7 @@ export default class Map extends Vue {
           ...DEFAULT_PIN_STYLE.icon,
         },
       });
+      // @ts-ignore
       marker.setMap(this.map);
     });
   }

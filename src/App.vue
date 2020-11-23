@@ -49,7 +49,7 @@
           </b-collapse>
         </b-card>
 
-        <b-list-group-item>新規追加</b-list-group-item>
+        <Dam />
         <b-list-group-item>編集</b-list-group-item>
         <b-list-group-item>削除</b-list-group-item>
         <b-list-group-item>検索</b-list-group-item>
@@ -69,12 +69,14 @@ import { Component, Vue } from 'vue-property-decorator';
 import AddToggleButton from './components/AddToggleButton.vue';
 import Map from './components/Map.vue';
 import PoiList from './components/PoiList.vue';
+import Dam from './components/Dam.vue';
 
 @Component({
   components: {
     AddToggleButton,
     Map,
     PoiList,
+    Dam,
   },
 })
 export default class App extends Vue {
