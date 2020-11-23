@@ -33,7 +33,7 @@
     </div>
 
     <b-sidebar id="sidebar-1" title="Sidebar" z-index="1" visible no-header shadow>
-      <h4 id="sidebar-no-header-title" class="px-3 py-2">Custom header sidebar</h4>
+      <h4 id="sidebar-no-header-title" class="px-3 py-2">ピンの表示</h4>
 
       <div class="px-3 py-2">
         <b-card header-bg-variant="primary" header-text-variant="white" no-body>
@@ -42,17 +42,29 @@
               新規作成
             </b-card-header>
           </a>
-          <b-collapse id="add-body">
+          <b-collapse id="add-body" visible>
             <b-card-body>
               <AddToggleButton />
             </b-card-body>
           </b-collapse>
         </b-card>
 
-        <Dam />
-        <b-list-group-item>編集</b-list-group-item>
-        <b-list-group-item>削除</b-list-group-item>
-        <b-list-group-item>検索</b-list-group-item>
+        <b-card header-bg-variant="primary" header-text-variant="white" no-body>
+          <a v-b-toggle href="#info-body" @click.prevent>
+            <b-card-header header-bg-variant="primary" header-text-variant="white">
+              統計データ表示
+            </b-card-header>
+          </a>
+          <b-collapse id="info-body">
+            <b-card-body>
+              <Dam />
+            </b-card-body>
+          </b-collapse>
+        </b-card>
+
+        <!-- <b-list-group-item>編集</b-list-group-item> -->
+        <!-- <b-list-group-item>削除</b-list-group-item> -->
+        <!-- <b-list-group-item>検索</b-list-group-item> -->
       </div>
     </b-sidebar>
 

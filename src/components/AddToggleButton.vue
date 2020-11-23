@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div style="">
     <b-button-group size="sm">
       <b-button
         v-for="(btn, idx) in buttons"
         :key="idx"
         :pressed.sync="btn.state"
-        variant="primary"
+        variant="outline-primary"
         v-on:click="change(idx)"
       >
         <b-icon :icon="btn.caption" aria-label="Help"></b-icon>

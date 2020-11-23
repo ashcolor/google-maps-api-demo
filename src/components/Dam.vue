@@ -1,6 +1,6 @@
 <template>
   <b-form-group label="国土数値情報">
-    <b-form-checkbox v-model="active" name="check-button" switches stacked>
+    <b-form-checkbox v-model="active" name="check-button" switch stacked>
       平成26年 ダムデータ
     </b-form-checkbox>
   </b-form-group>
@@ -47,14 +47,7 @@ export default class Dam extends Vue {
             dam.geometry.coordinates[1],
             dam.geometry.coordinates[0]
           ),
-          // icon: {
-          //   path: this.google.maps.SymbolPath.CIRCLE,
-          //   fillColor: '#FF0000',
-          //   fillOpacity: 0.8,
-          //   scale: 16,
-          //   strokeColor: '#FF0000',
-          //   strokeWeight: 1.0,
-          // },
+          icon: require('../assets/icons/dam.png'),
         });
         // @ts-ignore
         marker.setMap(this.map);
