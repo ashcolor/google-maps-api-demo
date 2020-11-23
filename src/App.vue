@@ -69,7 +69,7 @@
     </b-sidebar>
 
     <b-sidebar id="sidebar-right" title="Sidebar" z-index="1" visible no-header right shadow>
-      <!-- <PoiList /> -->
+      <PoiList />
     </b-sidebar>
 
     <Map />

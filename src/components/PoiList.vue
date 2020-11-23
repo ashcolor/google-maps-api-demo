@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4 id="sidebar-no-header-title" class="px-3 py-2">Custom header sidebar</h4>
+    <h4 id="sidebar-no-header-title" class="px-3 py-2">データ一覧</h4>
 
     <div class="px-3 py-2">
       <b-list-group>
