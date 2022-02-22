@@ -1,8 +1,11 @@
 <template>
   <div class="text-xs">
-    <p>center</p>
-    <p>Latitude:{{ centerLat }}</p>
-    <p>Longitude:{{ centerLng }}</p>
+    <p>position</p>
+    <p>Center:{{ center }}</p>
+    <p>Nouth East:{{ northEast }}</p>
+    <p>South West:{{ southWest }}</p>
+    <p>click:{{ clickedLatLng }}</p>
+    <p>zoom:{{ zoom }}</p>
   </div>
 </template>
 
@@ -10,6 +13,9 @@
 import { useMapStore } from '@/stores/map'
 
 const mapStore = useMapStore()
-const centerLat = computed(() => mapStore.centerLat);
-const centerLng = computed(() => mapStore.centerLng);
+const center = computed(() => mapStore.center);
+const northEast = computed(() => mapStore.northEast);
+const southWest = computed(() => mapStore.southWest);
+const clickedLatLng = computed(() => mapStore.clickedLatLngs);
+const zoom = computed(() => mapStore.zoom);
 </script>

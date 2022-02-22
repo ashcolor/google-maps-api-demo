@@ -8,8 +8,11 @@ export const useMapStore = defineStore("map", {
   state: () => ({
     map: null,
     drawingManager: null,
-    centerLat: null,
-    centerLng: null,
+    center: null,
+    northEast: null,
+    southWest: null,
+    clickedLatLngs: null,
+    zoom: null,
     pois: pois,
     damPois: damPois,
     damMarkers: [],
@@ -35,11 +38,23 @@ export const useMapStore = defineStore("map", {
       this.initDrawingManager();
       this.initPois();
 
+      this.center = this.map.getCenter();
+      this.zoom = this.map.zoom;
+
       //Event Listner
+      this.map.addListener("bounds_changed", () => {
+        const bounds = this.map.getBounds();
+        this.northEast = bounds.getNorthEast();
+        this.southWest = bounds.getSouthWest();
+      });
       this.map.addListener("center_changed", () => {
-        const center = this.map.getCenter();
-        this.centerLat = center.lat();
-        this.centerLng = center.lng();
+        this.center = this.map.getCenter();
+      });
+      this.map.addListener("click", (event: google.maps.MapMouseEvent) => {
+        this.clickedLatLngs = event.latLng;
+      });
+      this.map.addListener("zoom_changed", () => {
+        this.zoom = this.map.zoom;
       });
     },
     initDrawingManager() {
