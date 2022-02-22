@@ -1,10 +1,8 @@
 <template>
-  <div class="prose-sm px-3 py-2">
+  <div class="prose-sm bg-base-100 w-auto h-auto rounded-box m-0 p-1 divide-y divide-slate-200">
     <div :pois="pois" v-for="poi in pois">
-      <div>
-        <h4>{{ poi.id }} {{ poi.name }}</h4>
-        <p>{{ poi.address }}</p>
-      </div>
+      <p class="text-sm m-2">{{ poi.id }} {{ poi.name }}</p>
+      <p class="text-xs text-black/50 m-2">{{ poi.address }}</p>
     </div>
   </div>
 </template>
