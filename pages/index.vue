@@ -23,6 +23,7 @@
 			</div>
 		</div>
 	</main>
+	<RegisterModal></RegisterModal>
 </template>
 
 <script setup lang="ts">
@@ -32,6 +33,7 @@ import DrawingManagerSelect from '../components/organisms/DrawingManagerSelect.v
 import { useMapStore } from '@/stores/map'
 import PoiList from '~~/components/organisms/PoiList.vue';
 import DamToggleButton from '../components/organisms/DamToggleButton.vue';
+import RegisterModal from '~~/components/organisms/RegisterModal.vue';
 
 onMounted(() => {
 	const mapStore = useMapStore()

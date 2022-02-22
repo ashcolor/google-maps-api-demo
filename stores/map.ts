@@ -6,14 +6,24 @@ import damPois from "../data/dams.json";
 
 export const useMapStore = defineStore("map", {
   state: () => ({
+    // googleオブジェクト
     map: null,
     drawingManager: null,
+
+    // ログオブジェクト
     center: null,
     northEast: null,
     southWest: null,
     clickedLatLngs: null,
     zoom: null,
     pois: pois,
+
+    // 状態管理
+    isEditing: false,
+    editingMarker: null,
+    editingMarkerPosition: null,
+
+    //poiオブジェクト
     damPois: damPois,
     damMarkers: [],
   }),
@@ -62,6 +72,14 @@ export const useMapStore = defineStore("map", {
         drawingControl: false,
       });
       this.drawingManager.setMap(this.map);
+      this.drawingManager.addListener(
+        "markercomplete",
+        (marker: google.maps.Marker) => {
+          this.isEditing = true;
+          this.editingMarker = marker;
+          this.editingMarkerPosition = marker.getPosition();
+        }
+      );
     },
     setDrawingMode(mode: string) {
       const drawingMode = {
@@ -120,6 +138,23 @@ export const useMapStore = defineStore("map", {
           marker.setVisible(false);
         });
       }
+    },
+    setIsEditing(bool: boolean) {
+      this.isEditing = bool;
+    },
+    saveMarker(name: string, address: string) {
+      this.pois.push({
+        id: pois.length + 1,
+        name: name,
+        address: address,
+        position: {
+          lat: this.editingMarkerPosition.lat(),
+          lng: this.editingMarkerPosition.lng(),
+        },
+      });
+      this.editingMarker.setVisible(false);
+      this.marker = null;
+      this.initPois();
     },
   },
 });
