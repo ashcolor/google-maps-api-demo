@@ -1,4 +1,6 @@
 <template>
+  <!-- Hydration Error at use teleport -->
+  <!-- https://github.com/nuxt/framework/issues/1907 -->
   <teleport to="body">
     <div class="modal" :class="[isEditing ? 'modal-open' : '']">
       <div class="modal-box">
@@ -31,11 +33,11 @@ const isEditing = computed(() => mapStore.isEditing);
 const setIsEditing = mapStore.setIsEditing;
 const saveMarker = mapStore.saveMarker;
 
-const name: string = '';
-const address: string = '';
+const name = ref('');
+const address = ref('');
 
 const clickSave = () => {
   setIsEditing(false);
-  saveMarker(name, address);
+  saveMarker(name.value, address.value);
 }
 </script>
