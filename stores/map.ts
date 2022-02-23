@@ -4,11 +4,18 @@ import { Loader } from "@googlemaps/js-api-loader";
 import pois from "../data/pois.json";
 import damPois from "../data/dams.json";
 
+type FilterType = "all" | "finished" | "unfinished";
+type GEOMETRY = {
+  type: string;
+  coordinates: Array<Array<any>>;
+};
+
 export const useMapStore = defineStore("map", {
   state: () => ({
     // googleオブジェクト
     map: null,
     drawingManager: null,
+    markers: [],
 
     // ログオブジェクト
     center: null,
@@ -20,8 +27,9 @@ export const useMapStore = defineStore("map", {
 
     // 状態管理
     isEditing: false,
-    editingMarker: null,
-    editingMarkerPosition: null,
+    editingType: "",
+    editingObject: null,
+    editingGeometry: null as GEOMETRY,
 
     //poiオブジェクト
     damPois: damPois,
@@ -51,7 +59,7 @@ export const useMapStore = defineStore("map", {
       this.center = this.map.getCenter();
       this.zoom = this.map.zoom;
 
-      //Event Listner
+      // Event Listner
       this.map.addListener("bounds_changed", () => {
         const bounds = this.map.getBounds();
         this.northEast = bounds.getNorthEast();
@@ -72,12 +80,51 @@ export const useMapStore = defineStore("map", {
         drawingControl: false,
       });
       this.drawingManager.setMap(this.map);
+      // Event Listner
       this.drawingManager.addListener(
         "markercomplete",
         (marker: google.maps.Marker) => {
           this.isEditing = true;
-          this.editingMarker = marker;
-          this.editingMarkerPosition = marker.getPosition();
+          this.editingObject = marker;
+          const position = marker.getPosition();
+          this.editingGeometry = {
+            type: "Point",
+            coordinates: [position.lng(), position.lat()],
+          };
+        }
+      );
+      this.drawingManager.addListener(
+        "polylinecomplete",
+        (polyline: google.maps.Polyline) => {
+          this.isEditing = true;
+          this.editingObject = polyline;
+          const pathArray: Array<google.maps.LatLng> = polyline
+            .getPath()
+            .getArray();
+          this.editingGeometry = {
+            type: "Polyline",
+            coordinates: pathArray.map((latlng) => [
+              latlng.lng(),
+              latlng.lat(),
+            ]),
+          };
+        }
+      );
+      this.drawingManager.addListener(
+        "polygoncomplete",
+        (polygon: google.maps.Polygon) => {
+          this.isEditing = true;
+          this.editingObject = polygon;
+          const pathArray: Array<google.maps.LatLng> = polygon
+            .getPath()
+            .getArray();
+          this.editingGeometry = {
+            type: "Polygon",
+            coordinates: [...pathArray, pathArray[0]].map((latlng) => [
+              latlng.lng(),
+              latlng.lat(),
+            ]),
+          };
         }
       );
     },
@@ -93,25 +140,59 @@ export const useMapStore = defineStore("map", {
       this.drawingManager.setDrawingMode(drawingMode[mode]);
     },
     initPois() {
+      // マーカーを非表示
+      this.markers.forEach((marker) => {
+        marker.setMap(null);
+      });
+      this.markers = [];
+      // マーカーの作成
       this.pois.forEach((poi) => {
-        const marker = new google.maps.Marker({
-          map: this.map,
-          position: new google.maps.LatLng(poi.position.lat, poi.position.lng),
-          label: {
-            text: String(poi.id),
-            color: "#FFFFFF",
-            fontSize: "20px",
-          },
-          icon: {
-            path: google.maps.SymbolPath.CIRCLE,
-            fillColor: "#FF0000",
-            fillOpacity: 0.8,
-            scale: 16,
-            strokeColor: "#FF0000",
-            strokeWeight: 1.0,
-          },
-        });
-        marker.setMap(this.map);
+        if (poi.geometry.type === "Point") {
+          const marker = new google.maps.Marker({
+            map: this.map,
+            position: new google.maps.LatLng(
+              poi.geometry.coordinates[1],
+              poi.geometry.coordinates[0]
+            ),
+            label: {
+              text: String(poi.id),
+              color: "#FFFFFF",
+              fontSize: "20px",
+            },
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              fillColor: "#FF0000",
+              fillOpacity: 0.8,
+              scale: 12,
+              strokeColor: "#FF0000",
+              strokeWeight: 1.0,
+            },
+          });
+          this.markers.push(marker);
+          marker.setMap(this.map);
+        } else if (poi.geometry.type === "Polyline") {
+          const polyline = new google.maps.Polyline({
+            path: poi.geometry.coordinates.map((path) => {
+              return { lat: path[1], lng: path[0] };
+            }),
+            strokeColor: "#666666",
+            strokeWeight: 2,
+            zIndex: 1,
+          });
+          polyline.setMap(this.map);
+        } else if (poi.geometry.type === "Polygon") {
+          const polygon = new google.maps.Polygon({
+            paths: poi.geometry.coordinates.map((path) => {
+              return { lat: path[1], lng: path[0] };
+            }),
+            fillColor: "#aaaaaa",
+            fillOpacity: 1,
+            strokeColor: "#666666",
+            strokeWeight: 2,
+            zIndex: 1,
+          });
+          polygon.setMap(this.map);
+        }
       });
     },
     toggleDamPois(isShow: boolean) {
@@ -144,15 +225,12 @@ export const useMapStore = defineStore("map", {
     },
     saveMarker(name: string, address: string) {
       this.pois.push({
-        id: pois.length + 1,
+        id: this.pois.length + 1,
         name: name,
         address: address,
-        position: {
-          lat: this.editingMarkerPosition.lat(),
-          lng: this.editingMarkerPosition.lng(),
-        },
+        geometry: this.editingGeometry,
       });
-      this.editingMarker.setVisible(false);
+      this.editingObject.setMap(null);
       this.marker = null;
       this.initPois();
     },
