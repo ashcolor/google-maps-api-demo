@@ -1,14 +1,11 @@
 import { defineStore } from "pinia";
-import { Loader } from "@googlemaps/js-api-loader";
+import { Loader, LoaderOptions } from "@googlemaps/js-api-loader";
 
 import pois from "../data/pois.json";
 import damPois from "../data/dams.json";
-
-type FilterType = "all" | "finished" | "unfinished";
-type GEOMETRY = {
-  type: string;
-  coordinates: Array<Array<any>>;
-};
+import { types } from "~~/types";
+import { CONSTS } from "~~/utils/constants";
+import { utils } from "~~/utils/functions";
 
 export const useMapStore = defineStore("map", {
   state: () => ({
@@ -29,7 +26,7 @@ export const useMapStore = defineStore("map", {
     isEditing: false,
     editingType: "",
     editingObject: null,
-    editingGeometry: null as GEOMETRY,
+    editingGeometry: null as types.GEOMETRY,
 
     //poiオブジェクト
     damPois: damPois,
@@ -39,20 +36,13 @@ export const useMapStore = defineStore("map", {
   actions: {
     //初期化
     async initMap(id: string) {
-      const loader = new Loader({
-        apiKey: "AIzaSyDXxld2WqZDKvaRE-QBd_wdHThk1arProk",
-        version: "weekly",
-        libraries: ["drawing", "places"],
-      });
+      const loader = new Loader(
+        CONSTS.GOOGLE_MAPS_DEFAULT_OPTIONS as LoaderOptions
+      );
       const google = await loader.load();
-      const mapOptions = {
-        center: {
-          lat: 35,
-          lng: 130,
-        },
-        zoom: 4,
-      };
+      const mapOptions = CONSTS.GOOGLE_MAPS_DEFAULT_MAP_OPTIONS;
       this.map = new google.maps.Map(document.getElementById(id), mapOptions);
+
       this.initDrawingManager();
       this.initPois();
 
@@ -155,18 +145,12 @@ export const useMapStore = defineStore("map", {
               poi.geometry.coordinates[0]
             ),
             label: {
-              text: String(poi.id),
-              color: "#FFFFFF",
-              fontSize: "20px",
+              ...CONSTS.GOOGLE_MAPS_DEFAULT_MARKER_LABEL,
+              ...{
+                text: String(poi.id),
+              },
             },
-            icon: {
-              path: google.maps.SymbolPath.CIRCLE,
-              fillColor: "#FF0000",
-              fillOpacity: 0.8,
-              scale: 12,
-              strokeColor: "#FF0000",
-              strokeWeight: 1.0,
-            },
+            icon: utils.svgToBase64DataURL(),
           });
           this.markers.push(marker);
           marker.setMap(this.map);
@@ -182,14 +166,10 @@ export const useMapStore = defineStore("map", {
           polyline.setMap(this.map);
         } else if (poi.geometry.type === "Polygon") {
           const polygon = new google.maps.Polygon({
+            ...CONSTS.GOOGLE_MAPS_DEFAULT_POLYGON_OPTIONS,
             paths: poi.geometry.coordinates.map((path) => {
               return { lat: path[1], lng: path[0] };
             }),
-            fillColor: "#aaaaaa",
-            fillOpacity: 1,
-            strokeColor: "#666666",
-            strokeWeight: 2,
-            zIndex: 1,
           });
           polygon.setMap(this.map);
         }
