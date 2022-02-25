@@ -30,14 +30,14 @@ import { useMapStore } from '@/stores/map'
 
 const mapStore = useMapStore()
 const isEditing = computed(() => mapStore.isEditing);
-const setIsEditing = mapStore.setIsEditing;
-const saveMarker = mapStore.saveMarker;
+const finishDrawing = mapStore.finishDrawing
+const addPoi = mapStore.addPoi;
 
 const name = ref('');
 const address = ref('');
 
 const clickSave = () => {
-  setIsEditing(false);
-  saveMarker(name.value, address.value);
+  addPoi(name.value, address.value);
+  finishDrawing();
 }
 </script>

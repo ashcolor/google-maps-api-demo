@@ -22,13 +22,13 @@ export const useMapStore = defineStore("map", {
     zoom: null,
     pois: pois,
 
-    // 状態管理
+    // 登録状態
     isEditing: false,
     editingType: "",
     editingObject: null,
     editingGeometry: null as types.GEOMETRY,
 
-    //poiオブジェクト
+    //ダム情報オブジェクト
     damPois: damPois,
     damMarkers: [],
   }),
@@ -44,7 +44,7 @@ export const useMapStore = defineStore("map", {
       this.map = new google.maps.Map(document.getElementById(id), mapOptions);
 
       this.initDrawingManager();
-      this.initPois();
+      this.reloadPois();
 
       this.center = this.map.getCenter();
       this.zoom = this.map.zoom;
@@ -118,6 +118,69 @@ export const useMapStore = defineStore("map", {
         }
       );
     },
+
+    // ピンの表示
+    reloadPois() {
+      this.clearPois();
+      this.displayPois();
+    },
+    displayPois() {
+      this.pois.forEach((poi) => {
+        if (poi.geometry.type === "Point") {
+          this.displayMarker(poi);
+        } else if (poi.geometry.type === "Polyline") {
+          this.displayPolyline(poi);
+        } else if (poi.geometry.type === "Polygon") {
+          this.displayPolygon(poi);
+        }
+      });
+    },
+    displayMarker(poi) {
+      const marker = new google.maps.Marker({
+        map: this.map,
+        position: new google.maps.LatLng(
+          poi.geometry.coordinates[1],
+          poi.geometry.coordinates[0]
+        ),
+        label: {
+          ...CONSTS.GOOGLE_MAPS_DEFAULT_MARKER_LABEL,
+          ...{
+            text: String(poi.id),
+          },
+        },
+        icon: utils.svgToBase64DataURL(),
+      });
+      this.markers.push(marker);
+      marker.setMap(this.map);
+    },
+    displayPolyline(poi) {
+      const polyline = new google.maps.Polyline({
+        path: poi.geometry.coordinates.map((path) => {
+          return { lat: path[1], lng: path[0] };
+        }),
+        strokeColor: "#666666",
+        strokeWeight: 2,
+        zIndex: 1,
+      });
+      polyline.setMap(this.map);
+    },
+    displayPolygon(poi) {
+      const polygon = new google.maps.Polygon({
+        ...CONSTS.GOOGLE_MAPS_DEFAULT_POLYGON_OPTIONS,
+        paths: poi.geometry.coordinates.map((path) => {
+          return { lat: path[1], lng: path[0] };
+        }),
+      });
+      polygon.setMap(this.map);
+    },
+    clearPois() {
+      this.markers.forEach((marker) => {
+        marker.setMap(null);
+      });
+      this.markers = [];
+    },
+
+    // 新規登録
     setDrawingMode(mode: string) {
       const drawingMode = {
         default: null,
@@ -129,52 +192,24 @@ export const useMapStore = defineStore("map", {
       };
       this.drawingManager.setDrawingMode(drawingMode[mode]);
     },
-    initPois() {
-      // マーカーを非表示
-      this.markers.forEach((marker) => {
-        marker.setMap(null);
+    addPoi(name: string, address: string) {
+      this.pois.push({
+        id: this.pois.length + 1,
+        name: name,
+        address: address,
+        geometry: this.editingGeometry,
       });
-      this.markers = [];
-      // マーカーの作成
-      this.pois.forEach((poi) => {
-        if (poi.geometry.type === "Point") {
-          const marker = new google.maps.Marker({
-            map: this.map,
-            position: new google.maps.LatLng(
-              poi.geometry.coordinates[1],
-              poi.geometry.coordinates[0]
-            ),
-            label: {
-              ...CONSTS.GOOGLE_MAPS_DEFAULT_MARKER_LABEL,
-              ...{
-                text: String(poi.id),
-              },
-            },
-            icon: utils.svgToBase64DataURL(),
-          });
-          this.markers.push(marker);
-          marker.setMap(this.map);
-        } else if (poi.geometry.type === "Polyline") {
-          const polyline = new google.maps.Polyline({
-            path: poi.geometry.coordinates.map((path) => {
-              return { lat: path[1], lng: path[0] };
-            }),
-            strokeColor: "#666666",
-            strokeWeight: 2,
-            zIndex: 1,
-          });
-          polyline.setMap(this.map);
-        } else if (poi.geometry.type === "Polygon") {
-          const polygon = new google.maps.Polygon({
-            ...CONSTS.GOOGLE_MAPS_DEFAULT_POLYGON_OPTIONS,
-            paths: poi.geometry.coordinates.map((path) => {
-              return { lat: path[1], lng: path[0] };
-            }),
-          });
-          polygon.setMap(this.map);
-        }
-      });
+      this.reloadPois();
     },
+    finishDrawing() {
+      this.isEditing = false;
+      this.editingType = "";
+      this.editingObject.setMap(null);
+      this.editingObject = null;
+      this.editingGeometry = null;
+    },
+
+    // データ表示
     toggleDamPois(isShow: boolean) {
       if (isShow) {
         if (this.damMarkers.length === 0) {
@@ -199,20 +234,6 @@ export const useMapStore = defineStore("map", {
           marker.setVisible(false);
         });
       }
-    },
-    setIsEditing(bool: boolean) {
-      this.isEditing = bool;
-    },
-    saveMarker(name: string, address: string) {
-      this.pois.push({
-        id: this.pois.length + 1,
-        name: name,
-        address: address,
-        geometry: this.editingGeometry,
-      });
-      this.editingObject.setMap(null);
-      this.marker = null;
-      this.initPois();
     },
   },
 });
