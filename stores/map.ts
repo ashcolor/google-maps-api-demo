@@ -11,19 +11,18 @@ export const useMapStore = defineStore("map", {
     // googleオブジェクト
     map: null,
     drawingManager: null,
-    markers: [],
+    objects: [],
+
+    pois: pois,
 
     // ログオブジェクト
     center: null,
     northEast: null,
     southWest: null,
-    clickedLatLngs: null,
     zoom: null,
-    pois: pois,
 
     // 登録状態
     isEditing: false,
-    editingType: "",
     editingObject: null,
     editingGeometry: null as types.GEOMETRY,
   }),
@@ -52,9 +51,6 @@ export const useMapStore = defineStore("map", {
       });
       this.map.addListener("center_changed", () => {
         this.center = this.map.getCenter();
-      });
-      this.map.addListener("click", (event: google.maps.MapMouseEvent) => {
-        this.clickedLatLngs = event.latLng;
       });
       this.map.addListener("zoom_changed", () => {
         this.zoom = this.map.zoom;
@@ -121,17 +117,23 @@ export const useMapStore = defineStore("map", {
     },
     displayPois() {
       this.pois.forEach((poi) => {
+        let object:
+          | google.maps.Marker
+          | google.maps.Polyline
+          | google.maps.Polygon;
         if (poi.geometry.type === "Point") {
-          this.displayMarker(poi);
+          object = this.createMarker(poi);
         } else if (poi.geometry.type === "Polyline") {
-          this.displayPolyline(poi);
+          object = this.createPolyline(poi);
         } else if (poi.geometry.type === "Polygon") {
-          this.displayPolygon(poi);
+          object = this.createPolygon(poi);
         }
+        this.objects.push(object);
+        object.setMap(this.map);
       });
     },
-    displayMarker(poi) {
-      const marker = new google.maps.Marker({
+    createMarker(poi) {
+      return new google.maps.Marker({
         map: this.map,
         position: new google.maps.LatLng(
           poi.geometry.coordinates[1],
@@ -145,11 +147,9 @@ export const useMapStore = defineStore("map", {
         },
         icon: utils.svgToBase64DataURL(),
       });
-      this.markers.push(marker);
-      marker.setMap(this.map);
     },
-    displayPolyline(poi) {
-      const polyline = new google.maps.Polyline({
+    createPolyline(poi) {
+      return new google.maps.Polyline({
         path: poi.geometry.coordinates.map((path) => {
           return { lat: path[1], lng: path[0] };
         }),
@@ -157,22 +157,20 @@ export const useMapStore = defineStore("map", {
         strokeWeight: 2,
         zIndex: 1,
       });
-      polyline.setMap(this.map);
     },
-    displayPolygon(poi) {
-      const polygon = new google.maps.Polygon({
+    createPolygon(poi) {
+      new google.maps.Polygon({
         ...CONSTS.GOOGLE_MAPS_DEFAULT_POLYGON_OPTIONS,
         paths: poi.geometry.coordinates.map((path) => {
           return { lat: path[1], lng: path[0] };
         }),
       });
-      polygon.setMap(this.map);
     },
     clearPois() {
-      this.markers.forEach((marker) => {
+      this.objects.forEach((marker) => {
         marker.setMap(null);
       });
-      this.markers = [];
+      this.objects = [];
     },
 
     // 新規登録
@@ -190,7 +188,6 @@ export const useMapStore = defineStore("map", {
     },
     finishDrawing() {
       this.isEditing = false;
-      this.editingType = "";
       // TODO setMap(null)が効かない
       this.editingObject.setVisible(false);
       this.editingObject = null;

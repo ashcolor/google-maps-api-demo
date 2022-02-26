@@ -4,7 +4,6 @@
     <p>Center:{{ center }}</p>
     <p>Nouth East:{{ northEast }}</p>
     <p>South West:{{ southWest }}</p>
-    <p>click:{{ clickedLatLng }}</p>
     <p>zoom:{{ zoom }}</p>
   </div>
 </template>
@@ -16,6 +15,5 @@ const mapStore = useMapStore()
 const center = computed(() => mapStore.center);
 const northEast = computed(() => mapStore.northEast);
 const southWest = computed(() => mapStore.southWest);
-const clickedLatLng = computed(() => mapStore.clickedLatLngs);
 const zoom = computed(() => mapStore.zoom);
 </script>
