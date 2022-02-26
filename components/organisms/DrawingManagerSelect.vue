@@ -3,7 +3,7 @@
     <button
       v-for="(mode, idx) in modes"
       :key="idx"
-      @click="setMode(idx)"
+      @click="setDrawingMode(idx, mode.type)"
       class="btn btn-outline bg-white"
       :class="[idx === selectedMode ? 'btn-active' : '']"
     >
@@ -15,30 +15,36 @@
 <script lang="ts" setup>
 import { useMapStore } from '@/stores/map'
 
-const modes = [
-  {
-    icon: "fa-arrow-pointer",
-    mode: 'default',
-  },
-  {
-    icon: "fa-location-dot",
-    mode: 'marker',
-  },
-  {
-    icon: "fa-vector-square",
-    mode: 'polygon',
-  },
-  {
-    icon: "fa-wave-square",
-    mode: 'polyline',
-  }
-];
 const selectedMode = ref(0);
 
 const mapStore = useMapStore()
 
-const setMode = (id: number) => {
-  selectedMode.value = id;
-  mapStore.setDrawingMode(modes[id]['mode']);
+const modes = [
+  {
+    icon: "fa-arrow-pointer",
+    type: 'default',
+  },
+  {
+    icon: "fa-location-dot",
+    type: 'marker',
+  },
+  {
+    icon: "fa-vector-square",
+    type: 'polygon',
+  },
+  {
+    icon: "fa-wave-square",
+    type: 'polyline',
+  }
+];
+const setDrawingMode = (idx: number, type: string) => {
+  selectedMode.value = idx;
+  const overLayTypes = {
+    default: null,
+    marker: google.maps.drawing.OverlayType.MARKER,
+    polygon: google.maps.drawing.OverlayType.POLYGON,
+    polyline: google.maps.drawing.OverlayType.POLYLINE,
+  };
+  mapStore.setDrawingMode(overLayTypes[type]);
 }
 </script>

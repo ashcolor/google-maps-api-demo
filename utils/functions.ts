@@ -3,7 +3,7 @@ import { CONSTS } from "~~/utils/constants";
 export namespace utils {
   export function svgToBase64DataURL(
     size = 36,
-    color = "#F00",
+    color = "#ff0000",
     path = CONSTS.GOOGLE_MAPS_DEFAULT_PIN_PATH
   ): any {
     const svg = `<svg width="${size}px" height="${size}px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1"><path d="${path}" fill="${color}"/></svg>`;

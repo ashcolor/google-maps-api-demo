@@ -1,11 +1,10 @@
 import { defineStore } from "pinia";
 import { Loader, LoaderOptions } from "@googlemaps/js-api-loader";
 
-import pois from "../data/pois.json";
-import damPois from "../data/dams.json";
 import { types } from "~~/types";
 import { CONSTS } from "~~/utils/constants";
 import { utils } from "~~/utils/functions";
+import pois from "~~/data/pois.json";
 
 export const useMapStore = defineStore("map", {
   state: () => ({
@@ -27,10 +26,6 @@ export const useMapStore = defineStore("map", {
     editingType: "",
     editingObject: null,
     editingGeometry: null as types.GEOMETRY,
-
-    //ダム情報オブジェクト
-    damPois: damPois,
-    damMarkers: [],
   }),
   getters: {},
   actions: {
@@ -181,16 +176,8 @@ export const useMapStore = defineStore("map", {
     },
 
     // 新規登録
-    setDrawingMode(mode: string) {
-      const drawingMode = {
-        default: null,
-        marker: google.maps.drawing.OverlayType.MARKER,
-        circle: google.maps.drawing.OverlayType.CIRCLE,
-        polygon: google.maps.drawing.OverlayType.POLYGON,
-        polyline: google.maps.drawing.OverlayType.POLYLINE,
-        rectanfle: google.maps.drawing.OverlayType.RECTANGLE,
-      };
-      this.drawingManager.setDrawingMode(drawingMode[mode]);
+    setDrawingMode(mode: google.maps.drawing.OverlayType | null) {
+      this.drawingManager.setDrawingMode(mode);
     },
     addPoi(name: string, address: string) {
       this.pois.push({
@@ -204,36 +191,10 @@ export const useMapStore = defineStore("map", {
     finishDrawing() {
       this.isEditing = false;
       this.editingType = "";
-      this.editingObject.setMap(null);
+      // TODO setMap(null)が効かない
+      this.editingObject.setVisible(false);
       this.editingObject = null;
       this.editingGeometry = null;
-    },
-
-    // データ表示
-    toggleDamPois(isShow: boolean) {
-      if (isShow) {
-        if (this.damMarkers.length === 0) {
-          this.damPois.features.forEach((dam) => {
-            const marker = new google.maps.Marker({
-              map: this.map,
-              position: new google.maps.LatLng(
-                dam.geometry.coordinates[1],
-                dam.geometry.coordinates[0]
-              ),
-            });
-            marker.setMap(this.map);
-            this.damMarkers.push(marker);
-          });
-        } else {
-          this.damMarkers.forEach((marker) => {
-            marker.setVisible(true);
-          });
-        }
-      } else {
-        this.damMarkers.forEach((marker) => {
-          marker.setVisible(false);
-        });
-      }
     },
   },
 });
