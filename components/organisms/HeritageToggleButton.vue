@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import { useMapStore } from '@/stores/map'
-import poiData from "~~/data/test.json";
+import poiData from "~~/data/heritage.json";
 
 const isChecked = ref(false);
 
