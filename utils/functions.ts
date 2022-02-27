@@ -13,4 +13,36 @@ export namespace utils {
       labelOrigin: new google.maps.Point(size / 2, size / 3),
     };
   }
+
+  export function featureToGMapObject(
+    feature
+  ): google.maps.Marker | google.maps.Polyline | google.maps.Polygon | null {
+    const type = feature.geometry.type;
+    if (type === "Point") {
+      return new google.maps.Marker({
+        position: new google.maps.LatLng(
+          feature.geometry.coordinates[1],
+          feature.geometry.coordinates[0]
+        ),
+      });
+    } else if (type === "LineString") {
+      return new google.maps.Polyline({
+        path: feature.geometry.coordinates.map((path) => {
+          return { lat: path[1], lng: path[0] };
+        }),
+      });
+    } else if (type === "Polygon") {
+      return new google.maps.Polygon({
+        paths: feature.geometry.coordinates.map((paths) => {
+          return paths.map((path) => {
+            return { lat: path[1], lng: path[0] };
+          });
+        }),
+      });
+    } else if (type === "MultiLineString") {
+    } else if (type === "MultiPolygon") {
+    } else {
+      return null;
+    }
+  }
 }

@@ -117,53 +117,22 @@ export const useMapStore = defineStore("map", {
     },
     displayPois() {
       this.pois.forEach((poi) => {
-        let object:
-          | google.maps.Marker
-          | google.maps.Polyline
-          | google.maps.Polygon;
-        if (poi.geometry.type === "Point") {
-          object = this.createMarker(poi);
-        } else if (poi.geometry.type === "Polyline") {
-          object = this.createPolyline(poi);
-        } else if (poi.geometry.type === "Polygon") {
-          object = this.createPolygon(poi);
+        const object = utils.featureToGMapObject(poi);
+        if (object instanceof google.maps.Marker) {
+          object.setLabel({
+            ...CONSTS.GOOGLE_MAPS_DEFAULT_MARKER_LABEL,
+            ...{
+              text: String(poi.id),
+            },
+          });
+          object.setIcon(utils.svgToBase64DataURL());
+        } else if (object instanceof google.maps.Polyline) {
+          object.setOptions({ ...CONSTS.GOOGLE_MAPS_DEFAULT_POLYLINE_OPTIONS });
+        } else if (object instanceof google.maps.Polygon) {
+          object.setOptions({ ...CONSTS.GOOGLE_MAPS_DEFAULT_POLYGON_OPTIONS });
         }
         this.objects.push(object);
         object.setMap(this.map);
-      });
-    },
-    createMarker(poi) {
-      return new google.maps.Marker({
-        map: this.map,
-        position: new google.maps.LatLng(
-          poi.geometry.coordinates[1],
-          poi.geometry.coordinates[0]
-        ),
-        label: {
-          ...CONSTS.GOOGLE_MAPS_DEFAULT_MARKER_LABEL,
-          ...{
-            text: String(poi.id),
-          },
-        },
-        icon: utils.svgToBase64DataURL(),
-      });
-    },
-    createPolyline(poi) {
-      return new google.maps.Polyline({
-        path: poi.geometry.coordinates.map((path) => {
-          return { lat: path[1], lng: path[0] };
-        }),
-        strokeColor: "#666666",
-        strokeWeight: 2,
-        zIndex: 1,
-      });
-    },
-    createPolygon(poi) {
-      new google.maps.Polygon({
-        ...CONSTS.GOOGLE_MAPS_DEFAULT_POLYGON_OPTIONS,
-        paths: poi.geometry.coordinates.map((path) => {
-          return { lat: path[1], lng: path[0] };
-        }),
       });
     },
     clearPois() {

@@ -8,6 +8,8 @@
 				<DrawingManagerSelect></DrawingManagerSelect>
 				<h3>国土数値情報</h3>
 				<DamToggleButton></DamToggleButton>
+				<h3>文化遺産</h3>
+				<HeritageToggleButton></HeritageToggleButton>
 			</div>
 			<!-- 中央 -->
 			<div class="grow relative">
@@ -34,6 +36,7 @@ import { useMapStore } from '@/stores/map'
 import PoiList from '~~/components/organisms/PoiList.vue';
 import DamToggleButton from '../components/organisms/DamToggleButton.vue';
 import RegisterModal from '~~/components/organisms/RegisterModal.vue';
+import HeritageToggleButton from '../components/organisms/HeritageToggleButton.vue';
 
 onMounted(() => {
 	const mapStore = useMapStore()

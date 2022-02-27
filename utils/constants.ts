@@ -10,7 +10,7 @@ export namespace CONSTS {
       lat: 35.7,
       lng: 139.77,
     },
-    zoom: 11,
+    zoom: 13,
   };
 
   export const GOOGLE_MAPS_DEFAULT_MARKER_LABEL = {
@@ -28,6 +28,14 @@ export namespace CONSTS {
 
   export const GOOGLE_MAPS_DEFAULT_PIN_PATH =
     "M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602z";
+
+  export const GOOGLE_MAPS_DEFAULT_POLYLINE_OPTIONS = {
+    fillColor: "#aaaaaa",
+    fillOpacity: 1,
+    strokeColor: "#666666",
+    strokeWeight: 2,
+    zIndex: 1,
+  };
 
   export const GOOGLE_MAPS_DEFAULT_POLYGON_OPTIONS = {
     fillColor: "#aaaaaa",
