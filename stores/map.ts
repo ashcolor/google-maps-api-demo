@@ -11,7 +11,7 @@ export const useMapStore = defineStore("map", {
     // googleオブジェクト
     map: null,
     drawingManager: null,
-    objects: [],
+    features: [],
 
     pois: pois,
 
@@ -117,29 +117,37 @@ export const useMapStore = defineStore("map", {
     },
     displayPois() {
       this.pois.forEach((poi) => {
-        const object = utils.featureToGMapObject(poi);
-        if (object instanceof google.maps.Marker) {
-          object.setLabel({
-            ...CONSTS.GOOGLE_MAPS_DEFAULT_MARKER_LABEL,
-            ...{
-              text: String(poi.id),
-            },
-          });
-          object.setIcon(utils.svgToBase64DataURL());
-        } else if (object instanceof google.maps.Polyline) {
-          object.setOptions({ ...CONSTS.GOOGLE_MAPS_DEFAULT_POLYLINE_OPTIONS });
-        } else if (object instanceof google.maps.Polygon) {
-          object.setOptions({ ...CONSTS.GOOGLE_MAPS_DEFAULT_POLYGON_OPTIONS });
-        }
-        this.objects.push(object);
-        object.setMap(this.map);
+        const objects = utils.featureToGMapObjects(poi);
+        objects.forEach((object) => {
+          if (object instanceof google.maps.Marker) {
+            object.setLabel({
+              ...CONSTS.GOOGLE_MAPS_DEFAULT_MARKER_LABEL,
+              ...{
+                text: String(poi.id),
+              },
+            });
+            object.setIcon(utils.svgToBase64DataURL());
+          } else if (object instanceof google.maps.Polyline) {
+            object.setOptions({
+              ...CONSTS.GOOGLE_MAPS_DEFAULT_POLYLINE_OPTIONS,
+            });
+          } else if (object instanceof google.maps.Polygon) {
+            object.setOptions({
+              ...CONSTS.GOOGLE_MAPS_DEFAULT_POLYGON_OPTIONS,
+            });
+          }
+          this.features.push(object);
+          object.setMap(this.map);
+        });
       });
     },
     clearPois() {
-      this.objects.forEach((marker) => {
-        marker.setMap(null);
+      this.features.forEach((objects) => {
+        objects.forEach((object) => {
+          object.setMap(null);
+        });
       });
-      this.objects = [];
+      this.features = [];
     },
 
     // 新規登録
