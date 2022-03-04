@@ -21,7 +21,7 @@
 			<!-- 右 -->
 			<div class="prose flex-none w-72 p-4 bg-slate-100">
 				<h3>データ一覧</h3>
-				<PoiList></PoiList>
+				<FeatureList></FeatureList>
 			</div>
 		</div>
 	</main>
@@ -33,7 +33,7 @@ import TopHeaderVue from '~~/components/organisms/TopHeader.vue';
 import LogViewerVue from '~~/components/organisms/LogViewer.vue';
 import DrawingManagerSelect from '../components/organisms/DrawingManagerSelect.vue'
 import { useMapStore } from '@/stores/map'
-import PoiList from '~~/components/organisms/PoiList.vue';
+import FeatureList from '~~/components/organisms/FeatureList.vue';
 import DamToggleButton from '../components/organisms/DamToggleButton.vue';
 import RegisterModal from '~~/components/organisms/RegisterModal.vue';
 import HeritageToggleButton from '../components/organisms/HeritageToggleButton.vue';

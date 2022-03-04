@@ -49,7 +49,6 @@ const displayDams = () => {
 
 const deleteDams = () => {
   damMarkers.forEach((marker) => {
-    console.log(marker)
     marker.setMap(null);
   });
 }

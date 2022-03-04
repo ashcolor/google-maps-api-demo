@@ -1,8 +1,8 @@
 <template>
   <div class="prose-sm bg-base-100 w-auto h-auto rounded-box m-0 p-1 divide-y divide-slate-200">
-    <div :pois="pois" v-for="poi in pois">
-      <p class="text-sm m-2">{{ poi.id }} {{ poi.name }}</p>
-      <p class="text-xs text-black/50 m-2">{{ poi.address }}</p>
+    <div v-for="properties in mapStore.properties">
+      <p class="text-sm m-2">{{ properties.id }} {{ properties.name }}</p>
+      <p class="text-xs text-black/50 m-2">{{ properties.address }}</p>
     </div>
   </div>
 </template>
@@ -11,7 +11,8 @@
 import { useMapStore } from '@/stores/map'
 
 const mapStore = useMapStore()
-const pois = ref(mapStore.pois)
+const map = ref(mapStore.map)
+// const features = computed(mapStore.properties)
 </script>
 
 <style lang="scss" scoped></style>

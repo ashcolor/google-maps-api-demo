@@ -7,6 +7,7 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.2",
+    "@types/geojson": "^7946.0.8",
     "@types/google.maps": "^3.47.4",
     "autoprefixer": "^10.4.2",
     "nuxt3": "latest",

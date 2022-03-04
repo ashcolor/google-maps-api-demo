@@ -31,13 +31,13 @@ import { useMapStore } from '@/stores/map'
 const mapStore = useMapStore()
 const isEditing = computed(() => mapStore.isEditing);
 const finishDrawing = mapStore.finishDrawing
-const addPoi = mapStore.addPoi;
+const addFeature = mapStore.addFeature;
 
 const name = ref('');
 const address = ref('');
 
 const clickSave = () => {
-  addPoi(name.value, address.value);
+  addFeature(name.value, address.value);
   finishDrawing();
 }
 </script>

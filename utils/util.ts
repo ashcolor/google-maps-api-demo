@@ -1,6 +1,6 @@
 import { CONSTS } from "~~/utils/constants";
 
-export namespace utils {
+export namespace util {
   export function svgToBase64DataURL(
     size = 36,
     color = "#ff0000",
