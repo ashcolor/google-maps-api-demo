@@ -14,7 +14,6 @@ export const useMapStore = defineStore("map", {
     // googleオブジェクト
     map: null,
     drawingManager: null,
-    googleFeatures: [],
 
     // ログオブジェクト
     center: null,
@@ -29,13 +28,16 @@ export const useMapStore = defineStore("map", {
   }),
   getters: {
     properties: (state) => {
-      return state.googleFeatures.map((feature) => {
+      if (state.map === null) return [];
+      let propertiesArray = [];
+      state.map.data.forEach((feature) => {
         let properties = [];
         feature.forEachProperty((value, key) => {
           properties[key] = value;
         });
-        return properties;
+        propertiesArray.push(properties);
       });
+      return propertiesArray;
     },
   },
   actions: {
@@ -71,27 +73,35 @@ export const useMapStore = defineStore("map", {
       });
     },
     displayFeatures() {
-      this.googleFeatures = this.map.data.addGeoJson(SampleFeatureCollection);
-      this.map.data.setStyle(function (feature) {
+      this.map.data.addGeoJson(SampleFeatureCollection);
+      this.map.data.setStyle(function (feature: google.maps.Data.Feature) {
+        const type = feature.getGeometry().getType();
         let options = JSON.parse(
           JSON.stringify(CONSTS.GOOGLE_MAPS_OVERLAY_DEFAULT)
         );
-        if (feature.getProperty("stroke")) {
-          options["strokeColor"] = feature.getProperty("stroke");
+        if (type === "Point") {
+        } else if (
+          type === "LineString" ||
+          type === "Polygon" ||
+          type === "MultiLineString" ||
+          type === "MultiPolygon"
+        ) {
+          if (feature.getProperty("stroke")) {
+            options["strokeColor"] = feature.getProperty("stroke");
+          }
+          if (feature.getProperty("stroke-opacity")) {
+            options["strokeOpacity"] = feature.getProperty("stroke-opacity");
+          }
+          if (feature.getProperty("stroke-width")) {
+            options["strokeWeight"] = feature.getProperty("stroke-width");
+          }
+          if (feature.getProperty("fill")) {
+            options["fillColor"] = feature.getProperty("fill");
+          }
+          if (feature.getProperty("fill-opacity")) {
+            options["fillOpacity"] = feature.getProperty("fill-opacity");
+          }
         }
-        if (feature.getProperty("stroke-opacity")) {
-          options["strokeOpacity"] = feature.getProperty("stroke-opacity");
-        }
-        if (feature.getProperty("stroke-width")) {
-          options["strokeWeight"] = feature.getProperty("stroke-width");
-        }
-        if (feature.getProperty("fill")) {
-          options["fillColor"] = feature.getProperty("fill");
-        }
-        if (feature.getProperty("fill-opacity")) {
-          options["fillOpacity"] = feature.getProperty("fill-opacity");
-        }
-        console.log(options);
         return {
           ...options,
           icon: util.svgToBase64DataURL(),
@@ -101,9 +111,25 @@ export const useMapStore = defineStore("map", {
           },
         };
       });
-      // TODO
-      this.map.data.addListener("click", function (event) {
-        event.feature.setProperty("isColorful", true);
+      this.map.data.addListener(
+        "click",
+        function (event: google.maps.Data.MouseEvent) {
+          let center;
+          event.feature
+            .getGeometry()
+            .forEachLatLng((latlng) => (center = latlng));
+          const infowindow = new google.maps.InfoWindow({
+            position: center,
+            content: "test",
+          });
+          infowindow.open({
+            map: this.map,
+            shouldFocus: false,
+          });
+        }
+      );
+      this.map.data.addListener("mouseover", function (event) {
+        event.feature.setProperty("fill-opacity", 1.0);
       });
     },
 
@@ -118,13 +144,11 @@ export const useMapStore = defineStore("map", {
       this.drawingManager.addListener(
         "overlaycomplete",
         (event: google.maps.drawing.OverlayCompleteEvent) => {
-          const overlay = event.overlay;
-          const type = event.type;
+          this.editingOverlay = event.overlay;
           this.isEditing = true;
-          this.editingOverlay = overlay;
           this.editingGeometry = googleMapsUtil.overlayToGeometry({
-            type: type,
-            overlay: overlay,
+            type: event.type,
+            overlay: this.editingOverlay,
           });
         }
       );
@@ -136,7 +160,7 @@ export const useMapStore = defineStore("map", {
       this.map.data.addGeoJson({
         type: "Feature",
         properties: {
-          id: this.googleFeatures.length + 1,
+          id: this.properties.length + 1,
           name: name,
           address: address,
         },
