@@ -6,10 +6,6 @@
 			<div class="prose flex-none w-72 p-4 bg-slate-100">
 				<h3>モード切替</h3>
 				<DrawingManagerSelect></DrawingManagerSelect>
-				<h3>国土数値情報</h3>
-				<DamToggleButton></DamToggleButton>
-				<h3>文化遺産</h3>
-				<HeritageToggleButton></HeritageToggleButton>
 			</div>
 			<!-- 中央 -->
 			<div class="grow relative">
@@ -34,9 +30,7 @@ import LogViewerVue from '~~/components/organisms/LogViewer.vue';
 import DrawingManagerSelect from '../components/organisms/DrawingManagerSelect.vue'
 import { useMapStore } from '@/stores/map'
 import FeatureList from '~~/components/organisms/FeatureList.vue';
-import DamToggleButton from '../components/organisms/DamToggleButton.vue';
 import RegisterModal from '~~/components/organisms/RegisterModal.vue';
-import HeritageToggleButton from '../components/organisms/HeritageToggleButton.vue';
 
 onMounted(() => {
 	const mapStore = useMapStore()
