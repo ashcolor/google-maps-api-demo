@@ -43,7 +43,25 @@ export namespace googleMapsUtil {
     };
   }
 
-  export function polylineCoordinatesToGoogleMapPolyline(
+  export function getFeatureObjectCenter(
+    feature: google.maps.Data.Feature
+  ): google.maps.LatLng {
+    let count = 0;
+    let tmpLat = 0;
+    let tmpLng = 0;
+    feature.getGeometry().forEachLatLng((latlng) => {
+      console.log(latlng);
+      count++;
+      tmpLat += latlng.lat();
+      tmpLng += latlng.lng();
+    });
+    return new google.maps.LatLng({
+      lat: tmpLat / count,
+      lng: tmpLng / count,
+    });
+  }
+
+  /*   export function polylineCoordinatesToGoogleMapPolyline(
     coordinates: GeoJSON.Position[]
   ): GoogleObject {
     return new google.maps.Polyline({
@@ -99,5 +117,5 @@ export namespace googleMapsUtil {
     } else {
       return null;
     }
-  }
+  } */
 }

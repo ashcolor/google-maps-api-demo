@@ -114,13 +114,14 @@ export const useMapStore = defineStore("map", {
       this.map.data.addListener(
         "click",
         function (event: google.maps.Data.MouseEvent) {
-          let center;
-          event.feature
-            .getGeometry()
-            .forEachLatLng((latlng) => (center = latlng));
+          const feature = event.feature;
+          let html = "";
+          feature.forEachProperty((value, key) => {
+            html += `<div>${key}：${value}</div>`;
+          });
           const infowindow = new google.maps.InfoWindow({
-            position: center,
-            content: "test",
+            position: googleMapsUtil.getFeatureObjectCenter(event.feature),
+            content: html,
           });
           infowindow.open({
             map: this.map,
@@ -128,9 +129,6 @@ export const useMapStore = defineStore("map", {
           });
         }
       );
-      this.map.data.addListener("mouseover", function (event) {
-        event.feature.setProperty("fill-opacity", 1.0);
-      });
     },
 
     // DrawingManager
@@ -169,7 +167,7 @@ export const useMapStore = defineStore("map", {
     },
     finishDrawing() {
       this.isEditing = false;
-      // TODO setMap(null)が効かない
+      // TODO MarkerのみsetMap(null)が効かない
       this.editingOverlay.setVisible(false);
       this.editingOverlay.setMap(null);
       this.editingOverlay = null;
