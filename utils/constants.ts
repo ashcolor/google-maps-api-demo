@@ -1,19 +1,11 @@
 export namespace CONSTS {
-  export const GOOGLE_MAPS_DEFAULT_OPTIONS = {
+  export const GOOGLE_MAPS_LOADER_DEFAULT_OPTIONS = {
     apiKey: "AIzaSyDXxld2WqZDKvaRE-QBd_wdHThk1arProk",
     version: "weekly",
     libraries: ["drawing", "places"],
   };
 
-  export const OVERLAY_TYPE_TO_GEOMETRY_TYPE = {
-    // circle: "",
-    marker: "Point",
-    polyline: "LineString",
-    polygon: "Polygon",
-    rectangle: "Polygon",
-  };
-
-  export const GOOGLE_MAPS_DEFAULT_MAP_OPTIONS = {
+  export const GOOGLE_MAPS_MAP_DEFAULT_OPTIONS = {
     center: {
       lat: 35.7,
       lng: 139.77,
@@ -21,12 +13,7 @@ export namespace CONSTS {
     zoom: 13,
   };
 
-  export const GOOGLE_MAPS_DEFAULT_MARKER_LABEL = {
-    color: "#FFFFFF",
-    fontSize: "12px",
-  };
-
-  export const GOOGLE_MAPS_OVERLAY_DEFAULT = {
+  export const GOOGLE_MAPS_DATA_STYLE_DEFAULT_OPTIONS = {
     fillColor: "#0000ff",
     fillOpacity: 0.25,
     strokeOpacity: 0.9,

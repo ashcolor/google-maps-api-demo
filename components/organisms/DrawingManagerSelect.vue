@@ -22,29 +22,23 @@ const mapStore = useMapStore()
 const modes = [
   {
     icon: "fa-arrow-pointer",
-    type: 'default',
+    type: null,
   },
   {
     icon: "fa-location-dot",
-    type: 'marker',
+    type: 'Point',
   },
   {
     icon: "fa-vector-square",
-    type: 'polygon',
+    type: 'Polygon',
   },
   {
     icon: "fa-wave-square",
-    type: 'polyline',
+    type: 'LineString',
   }
 ];
 const setDrawingMode = (idx: number, type: string) => {
   selectedMode.value = idx;
-  const overLayTypes = {
-    default: null,
-    marker: google.maps.drawing.OverlayType.MARKER,
-    polygon: google.maps.drawing.OverlayType.POLYGON,
-    polyline: google.maps.drawing.OverlayType.POLYLINE,
-  };
-  mapStore.setDrawingMode(overLayTypes[type]);
+  mapStore.setDrawingMode(type);
 }
 </script>
