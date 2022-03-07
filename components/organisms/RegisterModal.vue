@@ -26,18 +26,22 @@
 </template>
 
 <script lang="ts" setup>
-import { useMapStore } from '@/stores/map'
+import { CONSTS } from "~~/utils/constants";
+import { googleMapsUtil } from '~~/utils/googleMapsUtil';
 
+import { useMapStore } from '@/stores/map'
 const mapStore = useMapStore()
 const isEditing = computed(() => mapStore.isEditing);
-const finishDrawing = mapStore.finishDrawing
-const addFeature = mapStore.addFeature;
+const finishSave = mapStore.finishSave
 
 const name = ref('');
 const address = ref('');
 
 const clickSave = () => {
-  addFeature(name.value, address.value);
-  finishDrawing();
+  const feature = mapStore.map.data.getFeatureById(CONSTS.UNSAVED_FEATURE_ID)
+
+  // TODO保存処理を入れる
+
+  finishSave();
 }
 </script>

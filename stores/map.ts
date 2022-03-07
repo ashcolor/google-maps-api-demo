@@ -3,7 +3,6 @@ import { Loader, LoaderOptions } from "@googlemaps/js-api-loader";
 import UUID from "uuidjs";
 
 import { types } from "~~/types";
-
 import { CONSTS } from "~~/utils/constants";
 import { util } from "~~/utils/util";
 import { googleMapsUtil } from "~~/utils/googleMapsUtil";
@@ -14,6 +13,9 @@ export const useMapStore = defineStore("map", {
   state: () => ({
     // googleオブジェクト
     map: null,
+
+    infoWindowContent: "",
+    activeFeature: null,
 
     // ログオブジェクト
     center: null,
@@ -66,7 +68,6 @@ export const useMapStore = defineStore("map", {
     },
 
     showFeatureCollection(featureCollection: GeoJSON.FeatureCollection) {
-      // TODO this.map.data =を入れると重い、入れないとfeatureFactoryが動かない
       this.map.data = new google.maps.Data({
         map: this.map,
         featureFactory: this.featureFactory,
@@ -93,41 +94,39 @@ export const useMapStore = defineStore("map", {
           this.showInfoWindow(event.feature);
         }.bind(this)
       );
-      // featureIDを付与したい
       this.map.data.addGeoJson(featureCollection);
     },
 
+    // 図形描画
+    setDrawingMode(mode: null | String) {
+      this.map.data.setDrawingMode(mode);
+    },
     featureFactory(geometry: google.maps.Data.Geometry) {
       this.isEditing = true;
       this.editingFeatureId = UUID.generate();
       return new google.maps.Data.Feature({
-        properties: {
-          id: this.editingFeatureId,
-        },
+        id: CONSTS.UNSAVED_FEATURE_ID,
         geometry: geometry,
       });
     },
+    finishSave() {
+      this.isEditing = false;
+    },
 
+    // InfoWindow
+    setInfoWindowContent(content: string) {
+      this.infoWindowContent = content;
+    },
     showInfoWindow(feature: google.maps.Data.Feature) {
-      let html = "";
-      feature.forEachProperty((value, key) => {
-        html += `<div>${key}：${value}</div>`;
-      });
+      this.activeFeature = feature;
       const infowindow = new google.maps.InfoWindow({
         position: googleMapsUtil.getFeatureObjectCenter(feature),
-        content: html,
+        content: this.infoWindowContent,
       });
       infowindow.open({
         map: this.map,
         shouldFocus: false,
       });
-    },
-
-    setDrawingMode(mode: null | String) {
-      this.map.data.setDrawingMode(mode);
-    },
-    finishDrawing() {
-      this.isEditing = false;
     },
   },
 });

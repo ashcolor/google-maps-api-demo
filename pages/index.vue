@@ -13,6 +13,7 @@
 				<div class="absolute z-10 bottom-10 left-2 bg-white bg-opacity-50">
 					<LogViewerVue></LogViewerVue>
 				</div>
+				<InfoWindow></InfoWindow>
 			</div>
 			<!-- 右 -->
 			<div class="prose flex-none w-72 p-4 bg-slate-100">
@@ -31,6 +32,7 @@ import DrawingManagerSelect from '../components/organisms/DrawingManagerSelect.v
 import { useMapStore } from '@/stores/map'
 import FeatureList from '~~/components/organisms/FeatureList.vue';
 import RegisterModal from '~~/components/organisms/RegisterModal.vue';
+import InfoWindow from '~~/components/organisms/InfoWindow.vue';
 
 onMounted(() => {
 	const mapStore = useMapStore()

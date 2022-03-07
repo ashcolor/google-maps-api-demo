@@ -2,6 +2,7 @@
   "type": "FeatureCollection",
   "features": [
     {
+      "id": 1,
       "type": "Feature",
       "properties": {
         "id": 1,
@@ -15,6 +16,7 @@
       }
     },
     {
+      "id": 2,
       "type": "Feature",
       "properties": {
         "id": 2,
@@ -27,6 +29,7 @@
       }
     },
     {
+      "id": 3,
       "type": "Feature",
       "properties": {
         "id": 3,
@@ -63,6 +66,7 @@
       }
     },
     {
+      "id": 4,
       "type": "Feature",
       "properties": {
         "id": 4,
@@ -78,6 +82,7 @@
       }
     },
     {
+      "id": 5,
       "type": "Feature",
       "properties": {
         "id": 5,
@@ -100,6 +105,7 @@
       }
     },
     {
+      "id": 6,
       "type": "Feature",
       "properties": {
         "id": 6,
