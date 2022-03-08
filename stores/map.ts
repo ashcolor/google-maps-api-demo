@@ -32,6 +32,8 @@ export const useMapStore = defineStore("map", {
       if (state.map === null) return [];
       const features = [];
       state.map.data.forEach((feature) => {
+        feature.properties =
+          googleMapsUtil.getPropertiesFromFeatureObject(feature);
         features.push(feature);
       });
       return features;
@@ -119,14 +121,17 @@ export const useMapStore = defineStore("map", {
     },
     showInfoWindow(feature: google.maps.Data.Feature) {
       this.activeFeature = feature;
-      const infowindow = new google.maps.InfoWindow({
+
+      this.map.infowindow?.close();
+      this.map.infowindow = new google.maps.InfoWindow({
         position: googleMapsUtil.getFeatureObjectCenter(feature),
         content: this.infoWindowContent,
       });
-      infowindow.open({
+      this.map.infowindow.open({
         map: this.map,
         shouldFocus: false,
       });
     },
+    showInfoWindowById() {},
   },
 });

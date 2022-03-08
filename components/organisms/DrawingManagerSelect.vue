@@ -4,7 +4,7 @@
       v-for="(mode, idx) in modes"
       :key="idx"
       @click="setDrawingMode(idx, mode.type)"
-      class="btn btn-outline bg-white"
+      class="btn btn-outline w-12 bg-white"
       :class="[idx === selectedMode ? 'btn-active' : '']"
     >
       <i class="fa-solid" :class="mode.icon"></i>

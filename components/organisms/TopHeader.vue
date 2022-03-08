@@ -1,6 +1,6 @@
 <template>
-  <header>
-    <div class="navbar bg-base-100">
+  <header class="border-b border-slate-100">
+    <div class="navbar bg-base-100 shadow">
       <div class="flex-1">
         <a class="btn btn-ghost normal-case text-xl">Google Maps APIデモ</a>
       </div>
