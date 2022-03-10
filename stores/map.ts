@@ -121,9 +121,8 @@ export const useMapStore = defineStore("map", {
       this.infoWindowContent = content;
     },
     showInfoWindow(feature: google.maps.Data.Feature) {
+      this.hideInfoWindow();
       this.activeFeature = feature;
-
-      this.map.infowindow?.close();
       this.map.infowindow = new google.maps.InfoWindow({
         position: googleMapsUtil.getFeatureObjectCenter(feature),
         content: this.infoWindowContent,
@@ -136,6 +135,9 @@ export const useMapStore = defineStore("map", {
         this.activeFeature = null;
       });
     },
-    showInfoWindowById() {},
+    hideInfoWindow() {
+      this.map.infowindow?.close();
+      this.activeFeature = null;
+    },
   },
 });

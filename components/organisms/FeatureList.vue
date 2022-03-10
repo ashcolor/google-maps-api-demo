@@ -3,12 +3,12 @@
     <div class="text-center font-semibold">{{ features.length }} 件のデータがあります</div>
     <div
       v-for="feature in features"
-      @click="showInfoWindow(feature)"
-      class="cursor-pointer"
+      @click="clickedItem(feature)"
+      class="p-2 cursor-pointer"
       :class="feature === activeFeature ? 'bg-secondary' : ''"
     >
-      <p class="text-sm text-primary m-2">{{ feature.getId() }} {{ feature.properties.name }}</p>
-      <p class="text-xs text-black/50 m-2">{{ feature.properties.address }}</p>
+      <div class="text-sm text-primary">{{ feature.getId() }} {{ feature.properties.name }}</div>
+      <div class="text-xs text-black/50">{{ feature.properties.address }}</div>
     </div>
   </div>
 </template>
@@ -17,8 +17,9 @@
 import { useMapStore } from '@/stores/map'
 
 const mapStore = useMapStore()
-const showInfoWindow = mapStore.showInfoWindow
 const activeFeature = computed(() => mapStore.activeFeature)
+const showInfoWindow = mapStore.showInfoWindow
+const hideInfoWindow = mapStore.hideInfoWindow
 
 const features = computed(() => {
   const visbleFeatures = [];
@@ -29,4 +30,12 @@ const features = computed(() => {
   });
   return visbleFeatures;
 })
+
+const clickedItem = (feature) => {
+  if (feature === activeFeature.value) {
+    hideInfoWindow()
+  } else {
+    showInfoWindow(feature)
+  }
+}
 </script>
