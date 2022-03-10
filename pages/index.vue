@@ -7,9 +7,9 @@
 				<div class="w-fit mx-auto">
 					<DrawingManagerSelect></DrawingManagerSelect>
 					<div class="divider"></div>
-
 					<PlaceSearchBox></PlaceSearchBox>
 					<FeatureSearchBox></FeatureSearchBox>
+					<div class="divider"></div>
 				</div>
 			</div>
 			<!-- 中央 -->

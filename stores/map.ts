@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import { Loader, LoaderOptions } from "@googlemaps/js-api-loader";
-import UUID from "uuidjs";
 
 import { types } from "~~/types";
 import { CONSTS } from "~~/utils/constants";
@@ -14,6 +13,7 @@ export const useMapStore = defineStore("map", {
     // googleオブジェクト
     map: null,
 
+    // インフォウィンドウ
     infoWindowContent: "",
     activeFeature: null,
 
@@ -105,9 +105,10 @@ export const useMapStore = defineStore("map", {
     },
     featureFactory(geometry: google.maps.Data.Geometry) {
       this.isEditing = true;
-      this.editingFeatureId = UUID.generate();
+      // TODO 保存後のDB上のIDを登録する
+      this.editingFeatureId = this.features.length + 1;
       return new google.maps.Data.Feature({
-        id: CONSTS.UNSAVED_FEATURE_ID,
+        id: this.editingFeatureId,
         geometry: geometry,
       });
     },
@@ -130,6 +131,9 @@ export const useMapStore = defineStore("map", {
       this.map.infowindow.open({
         map: this.map,
         shouldFocus: false,
+      });
+      this.map.infowindow.addListener("closeclick", () => {
+        this.activeFeature = null;
       });
     },
     showInfoWindowById() {},
