@@ -6,8 +6,11 @@
 			<div class="prose flex-none w-72 p-4 bg-base-200">
 				<div class="w-fit mx-auto">
 					<DrawingManagerSelect></DrawingManagerSelect>
+					<div class="divider"></div>
+
+					<PlaceSearchBox></PlaceSearchBox>
+					<FeatureSearchBox></FeatureSearchBox>
 				</div>
-				<div class="divider"></div>
 			</div>
 			<!-- 中央 -->
 			<div class="grow relative">
@@ -33,6 +36,8 @@ import DrawingManagerSelect from '~~/components/organisms/DrawingManagerSelect.v
 import FeatureList from '~~/components/organisms/FeatureList.vue';
 import RegisterModal from '~~/components/organisms/RegisterModal.vue';
 import InfoWindow from '~~/components/organisms/InfoWindow.vue';
+import PlaceSearchBox from '~~/components/organisms/PlaceSearchBox.vue';
+import FeatureSearchBox from '~~/components/organisms/FeatureSearchBox.vue';
 
 import { useMapStore } from '@/stores/map'
 
