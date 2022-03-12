@@ -38,9 +38,13 @@ const name = ref('');
 const address = ref('');
 
 const clickSave = () => {
-  const feature = mapStore.map.data.getFeatureById(CONSTS.UNSAVED_FEATURE_ID)
+  const feature = mapStore.map.data.getFeatureById(mapStore.editingFeatureId)
 
   // TODO保存処理を入れる
+
+
+  feature.setProperty('name', name.value);
+  feature.setProperty('address', address.value);
 
   finishSave();
 }
