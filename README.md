@@ -1,6 +1,11 @@
-# Nuxt 3 Minimal Starter
+# Google Maps API デモ
 
-We recommend to look at the [documentation](https://v3.nuxtjs.org).
+## 環境情報
+
+- [NuxtJS](https://nuxtjs.org/)
+- [tailwindcss](https://tailwindcss.com/)
+- [daisyUI](https://daisyui.com/)
+- [iconify](https://iconify.design/)
 
 ## Setup
 
