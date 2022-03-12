@@ -1,11 +1,6 @@
 import { defineNuxtConfig } from "nuxt3";
 
 export default defineNuxtConfig({
-  ssr: false,
-  target: "static",
-  router: {
-    base: "/ashcolor/google-maps-api-demo/",
-  },
   css: ["@/assets/css/tailwind.css", "~/assets/fontawesome/all.min.css"],
   build: {
     postcss: {
