@@ -291,6 +291,11 @@
   dependencies:
     fast-deep-equal "^3.1.3"
 
+"@iconify/vue@^3.1.4":
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@iconify/vue/-/vue-3.1.4.tgz#b6336afe0fe1d44093038f11a69585607db983ca"
+  integrity sha512-oJm0VPl1fhlsbBX9tBeAbtmZ5iHCxCkVQdCi81lxdA3cqc9yqBlCloqObX93/YWNM5N8j/j0Efk6iSwsihOoNA==
+
 "@jridgewell/resolve-uri@^3.0.3":
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/@jridgewell/resolve-uri/-/resolve-uri-3.0.5.tgz#68eb521368db76d040a6315cdb24bf2483037b9c"
@@ -5389,11 +5394,6 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
-
-uuidjs@^4.2.11:
-  version "4.2.11"
-  resolved "https://registry.yarnpkg.com/uuidjs/-/uuidjs-4.2.11.tgz#1c975d113277cdc4f140565cb1853218bf3764cb"
-  integrity sha512-uSd98rMEeoOEfCFphspo8f9N6eyrLv4Qhew56XciomGemP4uOYZ/fLZUPpnlJklVSsAV2S6Hd5p2XzF/ub5kxA==
 
 vite@^2.8.4:
   version "2.8.4"
