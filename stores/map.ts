@@ -68,6 +68,14 @@ export const useMapStore = defineStore("map", {
 
       this.showFeatureCollection(SampleFeatureCollection);
     },
+    execCallbackAfterLoadMap(callback: Function) {
+      const interval = setInterval(() => {
+        console.log("wait");
+        if (this.map === null) return;
+        clearInterval(interval);
+        callback();
+      }, 1000);
+    },
 
     showFeatureCollection(featureCollection: GeoJSON.FeatureCollection) {
       this.map.data = new google.maps.Data({

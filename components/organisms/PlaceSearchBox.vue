@@ -15,14 +15,10 @@
 <script lang="ts" setup>
 import { useMapStore } from '@/stores/map'
 const mapStore = useMapStore()
+const execCallbackAfterLoadMap = mapStore.execCallbackAfterLoadMap
 
 onMounted(() => {
-  const interval = setInterval(() => {
-    if (mapStore.map !== null) {
-      initAutocomplete()
-      clearInterval(interval);
-    }
-  }, 1000);
+  execCallbackAfterLoadMap(initAutocomplete)
 });
 
 const initAutocomplete = () => {
