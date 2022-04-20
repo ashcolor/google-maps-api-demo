@@ -54,6 +54,10 @@ body,
 	width: 100%;
 	height: 100%;
 }
+/* リストクリック時にマップにblue borderが表示される */
+div.gm-style > div {
+	border: none !important;
+}
 </style>
 <style scoped>
 main {
