@@ -9,6 +9,12 @@
 
 ## Setup
 
+For nvm
+
+```bash
+nvm use
+```
+
 Make sure to install the dependencies
 
 ```bash
