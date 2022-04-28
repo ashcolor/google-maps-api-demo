@@ -32,8 +32,7 @@ export const useMapStore = defineStore("map", {
       if (state.map === null) return [];
       const features = [];
       state.map.data.forEach((feature) => {
-        feature.properties =
-          googleMapsUtil.getPropertiesFromFeatureObject(feature);
+        feature.properties = googleMapsUtil.getPropertiesFromFeatureObject(feature);
         features.push(feature);
       });
       return features;
@@ -41,9 +40,7 @@ export const useMapStore = defineStore("map", {
   },
   actions: {
     async initMap(mapDivId: string) {
-      const loader = new Loader(
-        CONSTS.GOOGLE_MAPS_LOADER_DEFAULT_OPTIONS as LoaderOptions
-      );
+      const loader = new Loader(CONSTS.GOOGLE_MAPS_LOADER_DEFAULT_OPTIONS as LoaderOptions);
       const google = await loader.load();
       this.map = new google.maps.Map(
         document.getElementById(mapDivId),
@@ -86,12 +83,8 @@ export const useMapStore = defineStore("map", {
         if (feature.getGeometry() === null)
           // 描画中のスタイル
           return CONSTS.GOOGLE_MAPS_DATA_STYLE_DEFAULT_OPTIONS;
-        const properties =
-          googleMapsUtil.getPropertiesFromFeatureObject(feature);
-        const options =
-          googleMapsUtil.geoJsonStylePropertyToGoogleMapsStyleProperty(
-            properties
-          );
+        const properties = googleMapsUtil.getPropertiesFromFeatureObject(feature);
+        const options = googleMapsUtil.geoJsonStylePropertyToGoogleMapsStyleProperty(properties);
         return {
           ...CONSTS.GOOGLE_MAPS_DATA_STYLE_DEFAULT_OPTIONS,
           ...options,

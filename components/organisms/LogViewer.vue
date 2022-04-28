@@ -9,9 +9,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useMapStore } from '@/stores/map'
+import { useMapStore } from "@/stores/map";
 
-const mapStore = useMapStore()
+const mapStore = useMapStore();
 const center = computed(() => mapStore.center);
 const northEast = computed(() => mapStore.northEast);
 const southWest = computed(() => mapStore.southWest);

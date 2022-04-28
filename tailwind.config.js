@@ -9,12 +9,7 @@ module.exports = {
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
   theme: {
     fontFamily: {
-      sans: [
-        "ヒラギノ角ゴ Pro W3",
-        "Hiragino Kaku Gothic Pro",
-        "メイリオ",
-        "Meiryo",
-      ],
+      sans: ["ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo"],
     },
   },
   daisyui: {

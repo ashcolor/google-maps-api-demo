@@ -13,12 +13,12 @@
 </template>
 
 <script lang="ts" setup>
-import { Icon } from '@iconify/vue';
-import { useMapStore } from '@/stores/map'
+import { Icon } from "@iconify/vue";
+import { useMapStore } from "@/stores/map";
 
 const selectedMode = ref(0);
 
-const mapStore = useMapStore()
+const mapStore = useMapStore();
 
 const modes = [
   {
@@ -27,19 +27,19 @@ const modes = [
   },
   {
     icon: "ph:map-pin",
-    type: 'Point',
+    type: "Point",
   },
   {
     icon: "ph:polygon",
-    type: 'Polygon',
+    type: "Polygon",
   },
   {
     icon: "ph:line-segments",
-    type: 'LineString',
-  }
+    type: "LineString",
+  },
 ];
 const setDrawingMode = (idx: number, type: string) => {
   selectedMode.value = idx;
   mapStore.setDrawingMode(type);
-}
+};
 </script>

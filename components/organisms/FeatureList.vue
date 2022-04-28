@@ -8,34 +8,36 @@
       :class="feature === activeFeature ? 'bg-secondary' : ''"
     >
       <div class="text-sm text-primary">{{ feature.getId() }} {{ feature.properties.name }}</div>
-      <div class="text-xs text-black/50">{{ feature.properties.address }}</div>
+      <div class="text-xs text-black/50">
+        {{ feature.properties.address }}
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { useMapStore } from '@/stores/map'
+import { useMapStore } from "@/stores/map";
 
-const mapStore = useMapStore()
-const activeFeature = computed(() => mapStore.activeFeature)
-const showInfoWindow = mapStore.showInfoWindow
-const hideInfoWindow = mapStore.hideInfoWindow
+const mapStore = useMapStore();
+const activeFeature = computed(() => mapStore.activeFeature);
+const showInfoWindow = mapStore.showInfoWindow;
+const hideInfoWindow = mapStore.hideInfoWindow;
 
 const features = computed(() => {
   const visbleFeatures = [];
-  mapStore.features.forEach(feature => {
-    if (feature.getProperty('visible') !== false) {
+  mapStore.features.forEach((feature) => {
+    if (feature.getProperty("visible") !== false) {
       visbleFeatures.push(feature);
     }
   });
   return visbleFeatures;
-})
+});
 
 const clickedItem = (feature) => {
   if (feature === activeFeature.value) {
-    hideInfoWindow()
+    hideInfoWindow();
   } else {
-    showInfoWindow(feature)
+    showInfoWindow(feature);
   }
-}
+};
 </script>
