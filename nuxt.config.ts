@@ -2,10 +2,8 @@ import { defineNuxtConfig } from "nuxt";
 
 export default defineNuxtConfig({
   ssr: false,
-  nitro: {
-    prerender: {
-      routes: ["/"],
-    },
+  router: {
+    base: "/google-maps-api-demo/dist/",
   },
   css: ["@/assets/css/tailwind.css"],
   postcss: {
