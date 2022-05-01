@@ -2,6 +2,11 @@ import { defineNuxtConfig } from "nuxt";
 
 export default defineNuxtConfig({
   ssr: false,
+  nitro: {
+    prerender: {
+      routes: ["/"],
+    },
+  },
   css: ["@/assets/css/tailwind.css"],
   postcss: {
     plugins: {

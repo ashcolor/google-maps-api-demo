@@ -38,3 +38,5 @@ yarn build
 ```
 
 Checkout the [deployment documentation](https://v3.nuxtjs.org/docs/deployment).
+
+touch docs\.nojekyll
