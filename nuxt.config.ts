@@ -12,7 +12,7 @@ export default defineNuxtConfig({
     "pages:extend"(pages) {
       pages.push({
         name: "gh-pages",
-        path: "/",
+        path: "/google-maps-api-demo/dist/",
         file: resolve(__dirname, "pages/index.vue"),
       });
     },
