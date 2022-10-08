@@ -5,7 +5,7 @@ const { __dirname } = createCommonJS(import.meta.url);
 
 export default defineNuxtConfig({
   app: {
-    baseURL: "./",
+    baseURL: "/google-maps-api-demo",
   },
   ssr: false,
   css: ["@/assets/css/tailwind.css"],
