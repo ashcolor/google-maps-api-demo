@@ -4,10 +4,10 @@ import { createCommonJS } from "mlly";
 const { __dirname } = createCommonJS(import.meta.url);
 
 export default defineNuxtConfig({
-  ssr: false,
-  router: {
-    base: "/google-maps-api-demo/dist/",
+  app: {
+    baseURL: "./",
   },
+  ssr: false,
   hooks: {
     "pages:extend"(pages) {
       pages.push({
