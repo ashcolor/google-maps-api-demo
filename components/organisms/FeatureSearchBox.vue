@@ -15,21 +15,21 @@
 </template>
 
 <script lang="ts" setup>
-import { useMapStore } from '@/stores/map'
-const mapStore = useMapStore()
-const features = computed(() => mapStore.features)
-const searchWord = ref('')
+import { useMapStore } from "@/stores/map";
+const mapStore = useMapStore();
+const features = computed(() => mapStore.features);
+const searchWord = ref("");
 
 const execSearch = () => {
-  features.value.forEach(feature => {
-    let isVisible = false
-    Object.keys(feature.properties).forEach(key => {
+  features.value.forEach((feature) => {
+    let isVisible = false;
+    Object.keys(feature.properties).forEach((key) => {
       if (feature.properties[key].toString().indexOf(searchWord.value) !== -1) {
-        isVisible = true
+        isVisible = true;
       }
-    })
-    const dataFeature = mapStore.map.data.getFeatureById(feature.getId())
-    dataFeature.setProperty('visible', isVisible)
+    });
+    const dataFeature = mapStore.map.data.getFeatureById(feature.getId());
+    dataFeature.setProperty("visible", isVisible);
   });
-}
+};
 </script>

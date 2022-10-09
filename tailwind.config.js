@@ -4,17 +4,12 @@ module.exports = {
     "./layouts/**/*.vue",
     "./pages/**/*.vue",
     "./plugins/**/*.{js,ts}",
-    "./nuxt.config.{js,ts}",
+    // "./nuxt.config.{js,ts}",
   ],
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
   theme: {
     fontFamily: {
-      sans: [
-        "ヒラギノ角ゴ Pro W3",
-        "Hiragino Kaku Gothic Pro",
-        "メイリオ",
-        "Meiryo",
-      ],
+      sans: ["ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo"],
     },
   },
   daisyui: {

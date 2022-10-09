@@ -1,8 +1,6 @@
 export namespace googleMapsUtil {
   // google.maps.data.Featureの中心点を取得する
-  export function getFeatureObjectCenter(
-    feature: google.maps.Data.Feature
-  ): google.maps.LatLng {
+  export function getFeatureObjectCenter(feature: google.maps.Data.Feature): google.maps.LatLng {
     let count = 0;
     let tmpLat = 0;
     let tmpLng = 0;
@@ -18,9 +16,7 @@ export namespace googleMapsUtil {
   }
 
   // GeoJSONのスタイルプロパティをGoogle Maps API用のスタイルプロパティに変換する
-  export function geoJsonStylePropertyToGoogleMapsStyleProperty(
-    properties: Object
-  ) {
+  export function geoJsonStylePropertyToGoogleMapsStyleProperty(properties: Object) {
     const GeoJsonStylePropertyNameToGoogleMapsStylePropertyName = {
       stroke: "strokeColor",
       "stroke-opacity": "strokeOpacity",
@@ -40,9 +36,7 @@ export namespace googleMapsUtil {
   }
 
   // google.maps.Data.Featureからpropertiesを取り出す
-  export function getPropertiesFromFeatureObject(
-    feature: google.maps.Data.Feature
-  ) {
+  export function getPropertiesFromFeatureObject(feature: google.maps.Data.Feature) {
     const properties = {};
     feature.forEachProperty((value, key) => {
       properties[key] = value;

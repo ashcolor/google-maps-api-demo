@@ -13,12 +13,12 @@
 </template>
 
 <script lang="ts" setup>
-import { useMapStore } from '@/stores/map'
-const mapStore = useMapStore()
-const execCallbackAfterLoadMap = mapStore.execCallbackAfterLoadMap
+import { useMapStore } from "@/stores/map";
+const mapStore = useMapStore();
+const execCallbackAfterLoadMap = mapStore.execCallbackAfterLoadMap;
 
 onMounted(() => {
-  execCallbackAfterLoadMap(initAutocomplete)
+  execCallbackAfterLoadMap(initAutocomplete);
 });
 
 const initAutocomplete = () => {
@@ -47,5 +47,5 @@ const initAutocomplete = () => {
     });
     mapStore.map.fitBounds(bounds);
   });
-}
+};
 </script>

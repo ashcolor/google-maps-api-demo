@@ -1,15 +1,18 @@
-import { defineNuxtConfig } from "nuxt3";
+import { resolve } from "path";
+import { defineNuxtConfig } from "nuxt";
+import { createCommonJS } from "mlly";
+const { __dirname } = createCommonJS(import.meta.url);
 
 export default defineNuxtConfig({
-  css: ["@/assets/css/tailwind.css", "~/assets/fontawesome/all.min.css"],
-  build: {
-    postcss: {
-      postcssOptions: {
-        plugins: {
-          tailwindcss: {},
-          autoprefixer: {},
-        },
-      },
+  app: {
+    baseURL: "/google-maps-api-demo",
+  },
+  ssr: false,
+  css: ["@/assets/css/tailwind.css"],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
     },
   },
   buildModules: ["@pinia/nuxt"],
