@@ -1,6 +1,12 @@
+import { resolve } from "path";
 import { defineNuxtConfig } from "nuxt";
+import { createCommonJS } from "mlly";
+const { __dirname } = createCommonJS(import.meta.url);
 
 export default defineNuxtConfig({
+  app: {
+    baseURL: "/google-maps-api-demo",
+  },
   ssr: false,
   css: ["@/assets/css/tailwind.css"],
   postcss: {
