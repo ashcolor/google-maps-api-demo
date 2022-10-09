@@ -1,20 +1,3 @@
-<template>
-  <div class="prose-sm bg-white w-auto h-auto m-0 p-1 divide-y divide-slate-200">
-    <div class="text-center font-semibold">{{ features.length }} 件のデータがあります</div>
-    <div
-      v-for="feature in features"
-      @click="clickedItem(feature)"
-      class="p-2 cursor-pointer"
-      :class="feature === activeFeature ? 'bg-secondary' : ''"
-    >
-      <div class="text-sm text-primary">{{ feature.getId() }} {{ feature.properties.name }}</div>
-      <div class="text-xs text-black/50">
-        {{ feature.properties.address }}
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { useMapStore } from "@/stores/map";
 
@@ -41,3 +24,20 @@ const clickedItem = (feature) => {
   }
 };
 </script>
+
+<template>
+  <div class="prose-sm bg-white w-auto h-auto m-0 p-1 divide-y divide-slate-200">
+    <div class="text-center font-semibold">{{ features.length }} 件のデータがあります</div>
+    <div
+      v-for="feature in features"
+      @click="clickedItem(feature)"
+      class="p-2 cursor-pointer"
+      :class="feature === activeFeature ? 'bg-secondary' : ''"
+    >
+      <div class="text-sm text-primary">{{ feature.getId() }} {{ feature.properties.name }}</div>
+      <div class="text-xs text-black/50">
+        {{ feature.properties.address }}
+      </div>
+    </div>
+  </div>
+</template>

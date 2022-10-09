@@ -1,19 +1,3 @@
-<template>
-  <div class="form-control w-full max-w-xs">
-    <label class="label">
-      <span class="label-text">フリーワード</span>
-    </label>
-    <input
-      v-model="searchWord"
-      @change="execSearch"
-      id="search-input"
-      type="text"
-      placeholder="フリーワードで探す"
-      class="input input-bordered w-full max-w-xs"
-    />
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { useMapStore } from "@/stores/map";
 const mapStore = useMapStore();
@@ -33,3 +17,19 @@ const execSearch = () => {
   });
 };
 </script>
+
+<template>
+  <div class="form-control w-full max-w-xs">
+    <label class="label">
+      <span class="label-text">フリーワード</span>
+    </label>
+    <input
+      v-model="searchWord"
+      @change="execSearch"
+      id="search-input"
+      type="text"
+      placeholder="フリーワードで探す"
+      class="input input-bordered w-full max-w-xs"
+    />
+  </div>
+</template>
