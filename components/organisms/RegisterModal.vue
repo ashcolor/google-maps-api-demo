@@ -1,6 +1,25 @@
+<script lang="ts" setup>
+import { useMapStore } from "@/stores/map";
+const mapStore = useMapStore();
+const isEditing = computed(() => mapStore.isEditing);
+const finishSave = mapStore.finishSave;
+
+const name = ref("");
+const address = ref("");
+
+const clickSave = () => {
+  const feature = mapStore.map.data.getFeatureById(mapStore.editingFeatureId);
+
+  // TODO保存処理を入れる
+
+  feature.setProperty("name", name.value);
+  feature.setProperty("address", address.value);
+
+  finishSave();
+};
+</script>
+
 <template>
-  <!-- Hydration Error at use teleport -->
-  <!-- https://github.com/nuxt/framework/issues/1907 -->
   <teleport to="body">
     <div class="modal" :class="[isEditing ? 'modal-open' : '']">
       <div class="modal-box">
@@ -24,27 +43,3 @@
     </div>
   </teleport>
 </template>
-
-<script lang="ts" setup>
-import { CONSTS } from "~~/utils/constants";
-import { googleMapsUtil } from "~~/utils/googleMapsUtil";
-
-import { useMapStore } from "@/stores/map";
-const mapStore = useMapStore();
-const isEditing = computed(() => mapStore.isEditing);
-const finishSave = mapStore.finishSave;
-
-const name = ref("");
-const address = ref("");
-
-const clickSave = () => {
-  const feature = mapStore.map.data.getFeatureById(mapStore.editingFeatureId);
-
-  // TODO保存処理を入れる
-
-  feature.setProperty("name", name.value);
-  feature.setProperty("address", address.value);
-
-  finishSave();
-};
-</script>

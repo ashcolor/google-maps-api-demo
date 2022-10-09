@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.13.6",
-    "@pinia/nuxt": "^0.1.8",
+    "@pinia/nuxt": "^0.4.3",
     "daisyui": "^2.1.0",
     "pinia": "^2.0.11",
     "yarn": "^1.22.17"

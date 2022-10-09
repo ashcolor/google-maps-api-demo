@@ -18,7 +18,7 @@ nvm use
 Make sure to install the dependencies
 
 ```bash
-yarn install
+yarn
 ```
 
 ## Development
@@ -34,11 +34,9 @@ yarn dev
 Build the application for production:
 
 ```bash
-yarn build
+yarn generate
 ```
 
-Checkout the [deployment documentation](https://v3.nuxtjs.org/docs/deployment).
+## Deploy
 
-touch docs\.nojekyll
-
-master にプッシュしたら自動でデプロイ
+Auto Deproy to GitHub Pages

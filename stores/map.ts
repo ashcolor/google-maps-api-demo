@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { Loader, LoaderOptions } from "@googlemaps/js-api-loader";
 
-import { types } from "~~/types";
 import { CONSTS } from "~~/utils/constants";
 import { util } from "~~/utils/util";
 import { googleMapsUtil } from "~~/utils/googleMapsUtil";

@@ -1,17 +1,3 @@
-<template>
-  <div class="form-control w-full max-w-xs">
-    <label class="label">
-      <span class="label-text">地名・駅名</span>
-    </label>
-    <input
-      id="search-input"
-      type="text"
-      placeholder="地名・駅名で探す"
-      class="input input-bordered w-full max-w-xs"
-    />
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { useMapStore } from "@/stores/map";
 const mapStore = useMapStore();
@@ -49,3 +35,17 @@ const initAutocomplete = () => {
   });
 };
 </script>
+
+<template>
+  <div class="form-control w-full max-w-xs">
+    <label class="label">
+      <span class="label-text">地名・駅名</span>
+    </label>
+    <input
+      id="search-input"
+      type="text"
+      placeholder="地名・駅名で探す"
+      class="input input-bordered w-full max-w-xs"
+    />
+  </div>
+</template>
