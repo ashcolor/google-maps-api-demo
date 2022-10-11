@@ -26,7 +26,7 @@ const clickedItem = (feature) => {
 </script>
 
 <template>
-  <div class="prose-sm bg-white w-auto h-auto m-0 p-1 divide-y divide-slate-200">
+  <div class="prose-sm bg-white w-auto h-full m-0 p-1 divide-y divide-slate-200 overflow-y-auto">
     <div class="text-center font-semibold">{{ features.length }} 件のデータがあります</div>
     <div
       v-for="feature in features"

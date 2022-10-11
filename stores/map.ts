@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { Loader, LoaderOptions } from "@googlemaps/js-api-loader";
+import * as turf from "@turf/turf";
 
 import { CONSTS } from "~~/utils/constants";
 import { util } from "~~/utils/util";
@@ -97,6 +98,14 @@ export const useMapStore = defineStore("map", {
         }.bind(this)
       );
       this.map.data.addGeoJson(featureCollection);
+    },
+
+    addRandomPoint(count: number, isWithinRange: boolean) {
+      const bbox = isWithinRange
+        ? [this.southWest.lng(), this.southWest.lat(), this.northEast.lng(), this.northEast.lat()]
+        : [-180, -90, 180, 90];
+      const randomPoint = turf.randomPoint(count, { bbox: bbox });
+      this.map.data.addGeoJson(randomPoint);
     },
 
     // 図形描画
