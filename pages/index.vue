@@ -12,6 +12,7 @@
             <FeatureSearchBox></FeatureSearchBox>
             <div class="divider"></div>
             <AddRandomPointBox></AddRandomPointBox>
+            <AddRandomPolygonBox></AddRandomPolygonBox>
           </div>
         </div>
         <!-- 中央 -->
@@ -45,6 +46,7 @@ import FeatureSearchBox from "~~/components/organisms/FeatureSearchBox.vue";
 import { useMapStore } from "@/stores/map";
 import AddRandomPointButton from "~~/components/organisms/AddRandomPointButton.vue";
 import AddRandomPointBox from "~~/components/organisms/AddRandomPointBox.vue";
+import AddRandomPolygonBox from "~~/components/organisms/AddRandomPolygonBox.vue";
 
 onMounted(() => {
   const mapStore = useMapStore();

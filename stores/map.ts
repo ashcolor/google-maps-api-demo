@@ -108,6 +108,22 @@ export const useMapStore = defineStore("map", {
       this.map.data.addGeoJson(randomPoint);
     },
 
+    addRandomLineString(count: number, isWithinRange: boolean) {
+      const bbox = isWithinRange
+        ? [this.southWest.lng(), this.southWest.lat(), this.northEast.lng(), this.northEast.lat()]
+        : [-180, -90, 180, 90];
+      const randomLineString = turf.randomLineString(count, { bbox: bbox });
+      this.map.data.addGeoJson(randomLineString);
+    },
+
+    addRandomPolygon(count: number, isWithinRange: boolean) {
+      const bbox = isWithinRange
+        ? [this.southWest.lng(), this.southWest.lat(), this.northEast.lng(), this.northEast.lat()]
+        : [-180, -90, 180, 90];
+      const randomPolygon = turf.randomPolygon(count, { bbox: bbox });
+      this.map.data.addGeoJson(randomPolygon);
+    },
+
     // 図形描画
     setDrawingMode(mode: null | String) {
       this.map.data.setDrawingMode(mode);
