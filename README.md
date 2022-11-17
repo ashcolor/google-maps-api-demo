@@ -6,6 +6,8 @@
 - [tailwindcss](https://tailwindcss.com/)
 - [daisyUI](https://daisyui.com/)
 - [iconify](https://iconify.design/)
+- [Turf.js](https://turfjs.org/docs/)
+- [Google Maps Platform | Maps JavaScript API](https://developers.google.com/maps/documentation/javascript)
 
 ## Setup
 
